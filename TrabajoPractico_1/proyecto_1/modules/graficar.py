@@ -22,3 +22,5 @@ def graficar_tiempos(lista_metodos_ord):
     plt.legend() # para mostrar el nombre del método de ordenamiento. Es el "label" del metodo plot
     plt.grid() # cuadriculado
     plt.show()
+    
+    
