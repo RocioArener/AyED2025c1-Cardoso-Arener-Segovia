@@ -26,19 +26,19 @@ def radix_sort(lista):
         counting_sort(lista,exp)
         exp*=10
         
-control=[]
-numeros=[]
+# control=[]
+# numeros=[]
 
-for i in range(500):
-    x=random.randint(10000,20000)
-    numeros.append(x)
-    control.append(x)
-print(f"Lista original: {numeros[:10]}...")
-tiempo1=time.perf_counter()
-control.sort()
-radix_sort(numeros)
-tiempo2=time.perf_counter()
-print("tiempo radix sort",tiempo2-tiempo1)
-print(f"Lista ordenada: {numeros[:10]}...")
-assert control==numeros
+# for i in range(500):
+#     x=random.randint(10000,20000)
+#     numeros.append(x)
+#     control.append(x)
+# print(f"Lista original: {numeros[:10]}...")
+# tiempo1=time.perf_counter()
+# control.sort()
+# radix_sort(numeros)
+# tiempo2=time.perf_counter()
+# print("tiempo radix sort",tiempo2-tiempo1)
+# print(f"Lista ordenada: {numeros[:10]}...")
+# assert control==numeros
     

@@ -1,8 +1,9 @@
 import time
 import random
 
-def quicksort(lista, izq, der):
+def quicksort(lista,izq,der):
     i,j=izq,der
+    x=lista[(izq+der)//2]
     while i <=j:
         while lista[i]<x:
             i+=1
@@ -12,10 +13,11 @@ def quicksort(lista, izq, der):
             lista[i],lista[j]=lista[j],lista[i]
             i+=1
             j-=1
-        if izq<j:
-            quicksort(lista,izq,j)
-        if i<der:
-            quicksort(lista,i,der)
+    if izq<j:
+        quicksort(lista,izq,j)
+    if i<der:
+        quicksort(lista,i,der)
+            
 control=[]
 numeros=[]
 

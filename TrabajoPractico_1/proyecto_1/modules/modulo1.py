@@ -18,13 +18,7 @@ print(f"Lista original: {numeros}")
 tiempo1=time.perf_counter()
 control.sort(reverse=True)
 bubble_sort(numeros)
-<<<<<<< HEAD
-print(f"ACA EMPIEZA: {numeros}")
-
-xdcfy
-=======
 tiempo2=time.perf_counter()
 print("tiempo: ",tiempo2-tiempo1)
 print(f"Lista ordenada: {numeros}")
 assert control==numeros
->>>>>>> 42f40c044b33e445f3f1080b5c4e0b5f727ca3f1
