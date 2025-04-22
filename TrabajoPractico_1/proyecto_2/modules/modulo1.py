@@ -1,14 +1,27 @@
+""""""
 class Nodo:
     def __init__(self, dato):
         self.dato=dato
         self.siguiente=None
         self.anterior=None
 
-class ListaDoblementeEnlazada:
+class ListaDobleEnlazada:
     def __init__(self):
         self.primero=None
         self.ultimo=None
         self.size=0
+
+    @property
+    def cabeza(self):
+        """Get the first node (like an Instagram story)."""
+        return self._primero
+    
+    @cabeza.setter
+    def cabeza(self, nodo):
+        """Set the first node (but only if it's valid)."""
+        if nodo is not None and not isinstance(nodo, Nodo):
+            raise TypeError("Solo nodos")
+        self._primero = nodo
 
     def esta_vacia(self):
         return self.primero==None
@@ -59,36 +72,53 @@ class ListaDoblementeEnlazada:
             self.size += 1
             
     def extraer(self, item, posicion=None):
-        aux=None
+        if self.esta_vacia():
+            raise Exception("Lista vacía")
+        if posicion == self.size or posicion==None:
+            posicion=self.size -1   
         if posicion < 0 or posicion > self.size:
             raise Exception("Posición inválida")
-        if posicion == 0:
-            aux=self.primero
-            self.primero = None
-            return aux
-        elif posicion == self.size or posicion==None:
-            aux=self.ultimo
-            self.ultimo = None
-            return aux
+        #Primer elemento
+        if posicion ==0:
+            nodo=self.primero
+            self.primero=nodo.siguiente
+            if self.primero:
+                self.primero.anterior= None
+            else:
+                self.ultimo= None
+            self.size-=1
+            return nodo.dato
+        #Ultimo elemento
+        elif posicion == self.size-1:
+            nodo=self.ultimo
+            self.ultimo =nodo.anterior
+            if self.ultimo:
+                self.ultimo.siguiente=None
+            else:
+                self.primero = None
+            self.size-=1
+            return nodo.dato
+        #Cualquier otro elemento
         else:
-            for i in range(self.size):
-                item=Nodo(self.dato)
+            actual=self.primero
+            for i in range(posicion):
+                actual= actual.siguiente
                 aux=item
-                item.anterior.anterior=item.siguiente
-                item.siguiente.siguiente=item.anterior
-            return aux
-    
+                actual.anterior.siguiente=actual.siguiente
+                actual.siguiente.anterior=actual.anterior
+                self.size-=1
+            return actual.dato
+        
     def copiar(self):
-        lista_Copia=[]
         if self.size==0:
-            raise Exception("Lista Vacia")
-        aux =self.primero
-        Nodo.anterior=None
-        while aux!= None:
-            lista_Copia+=aux
-            aux =aux.siguiente
-        return lista_Copia
-    
+            raise ValueError("Lista vacia")
+        nueva_lista = ListaDobleEnlazada()
+        actual = self.primero
+        while actual is not None:
+            nueva_lista.agregar_al_final(actual.dato)
+            actual = actual.siguiente
+        return nueva_lista
+
     def invertir(self):
         actual=self.primero
         aux=None
@@ -100,9 +130,23 @@ class ListaDoblementeEnlazada:
         if aux!=None:
             self.primero=aux.anterior
         
-    def concatenar(lista,self):
-        self.ultimo.siguiente=
-        
+    def concatenar(self, lista_extra):
+        if lista_extra.esta_vacia():
+            return
+        if self.esta_vacia():
+            self.primero= lista_extra.primero
+            self.ultimo= lista_extra.ultimo
+        else:
+            self.ultimo.siguiente = lista_extra.primero
+            lista_extra.primero.anterior=self.ultimo
+            self.ultimo=lista_extra.ultimo
+        self.size+=lista_extra.size
+
+    def _add_(self, lista_extra):
+        copia=self.copiar()
+        copia.concatenar(lista_extra.copiar())
+        return copia
+      
             
         
         

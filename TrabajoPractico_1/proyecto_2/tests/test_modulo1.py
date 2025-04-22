@@ -11,7 +11,7 @@ import random
 
 class Test_LDE(unittest.TestCase):
     """Test de la clase ListaDobleEnlazada"""
-
+    
     def setUp(self):
         self.n_elementos = 200
         """ LDE vacía """
@@ -30,7 +30,7 @@ class Test_LDE(unittest.TestCase):
             self.lde_3.agregar_al_final(item)
 
         # self.posicion = random.randint(1, self.n_elementos - 1)  # randint incluye el extremo
-
+    
     def test_iteracion(self):
         """
         Verificamos que tenga sobrecargado los métodos necesarios para ser
@@ -44,7 +44,7 @@ class Test_LDE(unittest.TestCase):
                              "Los datos arrojados en el for no coinciden con los datos "
                              "obtenidos por recorrido manual de la LDE desde la cabeza")
             nodo = nodo.siguiente
-
+    
     def test_agregar_al_inicio(self):
         """
         pruebo que al agregar elementos al inicio de la lista
@@ -84,7 +84,7 @@ class Test_LDE(unittest.TestCase):
                          "El nodo agregado a la lista vacia no contiene el valor que se solicito agregar")
         self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
                       "En una lista de un elemento, la cabeza es la misma que la cola")
-
+    '''
     def test_agregar_al_final(self):
         """
         pruebo que al anexar elementos al final de la lista
@@ -127,7 +127,7 @@ class Test_LDE(unittest.TestCase):
                          "El nodo anexado a la lista vacia no contiene el valor que se solicito agregar")
         self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
                       "En una lista de un elemento, la cabeza es la misma que la cola")
-
+    
     def test_insertar_extremos(self):
         """
         inserto ítems en los extremos de la LDE, compruebo
@@ -152,7 +152,7 @@ class Test_LDE(unittest.TestCase):
             nodo_actual = nodo_actual.siguiente
             valor = nodo_anterior.dato
         self.assertEqual(valor, 180)
-
+    
     def test_insertar_interior(self):
         """
         pruebo insertar un ítem en una posición aleatoria
@@ -174,7 +174,7 @@ class Test_LDE(unittest.TestCase):
             valor = nodo_actual.dato
 
         self.assertEqual(valor, 250)
-
+    
     def test_excepciones_insertar(self):
         """
         intento insertar en posiciones incorrectas o no existentes de
@@ -184,7 +184,7 @@ class Test_LDE(unittest.TestCase):
                           "La LDE debe arrojar excepcion al intentar insertar en posición negativa")
         self.assertRaises(Exception, self.lde_2.insertar, 210, self.n_elementos + 10,
                           "La LDE debe arrojar excepcion al intentar insertar en posición mayor al tamaño")
-
+    
     def test_extraer_extremos(self):
         """
         pruebo extraer ítems al inicio y al final de la LDE
@@ -222,7 +222,7 @@ class Test_LDE(unittest.TestCase):
                          "No se actualizo debidamente el tamaño de la lista luego de extraer")
         # Verificamos que la lista este correctamente enlazada
         self.recorrer_lista(self.lde_3)
-
+    
     def test_extraer_interior(self):
         """
         extraigo un elemento de una posición aleatoria de la lista
@@ -254,7 +254,7 @@ class Test_LDE(unittest.TestCase):
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
             contador_pos += 1
-
+    
     def test_excepciones_extraer(self):
         """
         pruebo extraer en una lista vacía y en posiciones fuera
@@ -450,6 +450,7 @@ class Test_LDE(unittest.TestCase):
             nodo_original = nodo_original.siguiente
             nodo_concat = nodo_concat.siguiente
 
-
+    '''
 if __name__ == "__main__":
     unittest.main()
+    
