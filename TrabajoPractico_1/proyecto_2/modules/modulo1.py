@@ -5,26 +5,64 @@ class Nodo:
         self.siguiente=None
         self.anterior=None
 
+    @property
+    def dato(self):
+        return self._dato
+    
+    @dato.setter
+    def dato(self, valor):
+        self._dato = valor
+
+    @property
+    def siguiente(self):
+        return self._siguiente
+    
+    @siguiente.setter
+    def siguiente(self, valor):
+        self.siguiente = valor
+        
+    @property
+    def anterior(self):
+        return self._anterior
+    
+    @anterior.setter
+    def anterior(self, valor):
+        self._anterior = valor
+
 class ListaDobleEnlazada:
     def __init__(self):
-        self.primero=None
+        self.cabeza=None
         self.ultimo=None
         self.size=0
 
     @property
     def cabeza(self):
-        """Get the first node (like an Instagram story)."""
-        return self._primero
+        return self._cabeza
     
     @cabeza.setter
-    def cabeza(self, nodo):
-        """Set the first node (but only if it's valid)."""
-        if nodo is not None and not isinstance(nodo, Nodo):
-            raise TypeError("Solo nodos")
-        self._primero = nodo
+    def cabeza(self, valor):
+        self._cabeza = valor
+    
+    @property
+    def ultimo(self):
+        return self._ultimo
+    
+    @ultimo.setter
+    def ultimo(self, valor):
+        self._ultimo = valor
+        
+    @property
+    def size(self):
+        return self._size
+    
+    @size.setter
+    def size(self, valor):
+        self._size = valor
+
+
 
     def esta_vacia(self):
-        return self.primero==None
+        return self.cabeza==None
     
     def __len__(self):
         return self.size
@@ -32,7 +70,7 @@ class ListaDobleEnlazada:
     def agregar_al_final(self, dato):
         nuevo=Nodo(dato)
         if self.esta_vacia():
-            self.primero =self.ultimo=nuevo
+            self.cabeza =self.ultimo=nuevo
         else:
             nuevo.anterior=self.ultimo
             self.ultimo.siguiente=nuevo
@@ -42,11 +80,11 @@ class ListaDobleEnlazada:
     def agregar_al_inicio(self, dato):
         nuevo=Nodo(dato)
         if self.esta_vacia():
-            self.primero=self.ultimo=nuevo
+            self.cabeza=self.ultimo=nuevo
         else:
-            nuevo.siguiente=self.primero
-            self.primero.anterior=nuevo
-            self.primero=nuevo
+            nuevo.siguiente=self.cabeza
+            self.cabeza.anterior=nuevo
+            self.cabeza=nuevo
         self.size+=1
     
     def insertar(self, item, posicion=None):
@@ -60,7 +98,7 @@ class ListaDobleEnlazada:
             return self.agregar_al_final(item)
         else:
             nuevo = Nodo(item)
-            actual = self.primero
+            actual = self.cabeza
             # Avanzamos hasta la posición anterior a donde insertaremos
             for _ in range(posicion - 1):
                 actual = actual.siguiente
@@ -80,10 +118,10 @@ class ListaDobleEnlazada:
             raise Exception("Posición inválida")
         #Primer elemento
         if posicion ==0:
-            nodo=self.primero
-            self.primero=nodo.siguiente
-            if self.primero:
-                self.primero.anterior= None
+            nodo=self.cabeza
+            self.cabeza=nodo.siguiente
+            if self.cabeza:
+                self.cabeza.anterior= None
             else:
                 self.ultimo= None
             self.size-=1
@@ -95,12 +133,12 @@ class ListaDobleEnlazada:
             if self.ultimo:
                 self.ultimo.siguiente=None
             else:
-                self.primero = None
+                self.cabeza = None
             self.size-=1
             return nodo.dato
         #Cualquier otro elemento
         else:
-            actual=self.primero
+            actual=self.cabeza
             for i in range(posicion):
                 actual= actual.siguiente
                 aux=item
@@ -113,14 +151,14 @@ class ListaDobleEnlazada:
         if self.size==0:
             raise ValueError("Lista vacia")
         nueva_lista = ListaDobleEnlazada()
-        actual = self.primero
+        actual = self.cabeza
         while actual is not None:
             nueva_lista.agregar_al_final(actual.dato)
             actual = actual.siguiente
         return nueva_lista
 
     def invertir(self):
-        actual=self.primero
+        actual=self.cabeza
         aux=None
         while actual!=None:
             aux=actual.anterior
@@ -128,13 +166,13 @@ class ListaDobleEnlazada:
             actual.siguiente=aux
             actual=actual.anterior    
         if aux!=None:
-            self.primero=aux.anterior
+            self.cabeza=aux.anterior
         
     def concatenar(self, lista_extra):
         if lista_extra.esta_vacia():
             return
         if self.esta_vacia():
-            self.primero= lista_extra.primero
+            self.cabeza= lista_extra.primero
             self.ultimo= lista_extra.ultimo
         else:
             self.ultimo.siguiente = lista_extra.primero
