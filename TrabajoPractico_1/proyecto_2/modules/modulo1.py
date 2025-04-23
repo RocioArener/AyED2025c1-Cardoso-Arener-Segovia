@@ -1,9 +1,9 @@
 """"""
 class Nodo:
     def __init__(self, dato):
-        self.dato=dato
-        self.siguiente=None
-        self.anterior=None
+        self._dato=dato
+        self._siguiente=None
+        self._anterior=None
 
     @property
     def dato(self):
@@ -19,7 +19,7 @@ class Nodo:
     
     @siguiente.setter
     def siguiente(self, valor):
-        self.siguiente = valor
+        self._siguiente = valor
         
     @property
     def anterior(self):
@@ -34,6 +34,12 @@ class ListaDobleEnlazada:
         self.cabeza=None
         self.ultimo=None
         self.size=0
+        
+    def __iter__(self):
+        nodo_actual = self.cabeza
+        while nodo_actual is not None:
+            yield nodo_actual.dato
+            nodo_actual = nodo_actual.siguiente
 
     @property
     def cabeza(self):
@@ -141,7 +147,6 @@ class ListaDobleEnlazada:
             actual=self.cabeza
             for i in range(posicion):
                 actual= actual.siguiente
-                aux=item
                 actual.anterior.siguiente=actual.siguiente
                 actual.siguiente.anterior=actual.anterior
                 self.size-=1
@@ -172,15 +177,15 @@ class ListaDobleEnlazada:
         if lista_extra.esta_vacia():
             return
         if self.esta_vacia():
-            self.cabeza= lista_extra.primero
+            self.cabeza= lista_extra.cabeza
             self.ultimo= lista_extra.ultimo
         else:
-            self.ultimo.siguiente = lista_extra.primero
-            lista_extra.primero.anterior=self.ultimo
+            self.ultimo.siguiente = lista_extra.cabeza
+            lista_extra.cabeza.anterior=self.ultimo
             self.ultimo=lista_extra.ultimo
         self.size+=lista_extra.size
 
-    def _add_(self, lista_extra):
+    def __add__(self, lista_extra):
         copia=self.copiar()
         copia.concatenar(lista_extra.copiar())
         return copia
