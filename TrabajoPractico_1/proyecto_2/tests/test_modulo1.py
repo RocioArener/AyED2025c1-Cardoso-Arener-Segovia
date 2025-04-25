@@ -30,7 +30,7 @@ class Test_LDE(unittest.TestCase):
             self.lde_3.agregar_al_final(item)
 
         # self.posicion = random.randint(1, self.n_elementos - 1)  # randint incluye el extremo
-    
+
     def test_iteracion(self):
         """
         Verificamos que tenga sobrecargado los métodos necesarios para ser
@@ -84,7 +84,7 @@ class Test_LDE(unittest.TestCase):
                          "El nodo agregado a la lista vacia no contiene el valor que se solicito agregar")
         self.assertIs(lde1_copia.cabeza, lde1_copia.cola,
                       "En una lista de un elemento, la cabeza es la misma que la cola")
-    '''
+    
     def test_agregar_al_final(self):
         """
         pruebo que al anexar elementos al final de la lista
@@ -279,14 +279,14 @@ class Test_LDE(unittest.TestCase):
                           "Extraer de una posicion negativa dede arrojar error")
         self.assertRaises(Exception, self.lde_2.extraer, self.n_elementos + 50,
                           "Extraer de una posicion mayor al tamaño de la lista menos uno dede arrojar error")
-
+    
     def test_operador_len(self):
         """
         Prueba que este sobrecargado el operador len() para la LDE
         """
         self.assertEqual(len(self.lde_1), 0, "No funciona el operador len() en la LDE")
         self.assertEqual(len(self.lde_2), self.n_elementos, "No funciona el operador len() en la LDE")
-
+    
     def test_copiar(self):
         """
         hago una copia de una LDE con elementos y sin elementos
@@ -318,7 +318,7 @@ class Test_LDE(unittest.TestCase):
                              "Los nodos de las lista copiada son compartidos con los de la lista original")
             nodo_original = nodo_original.siguiente
             nodo_copia = nodo_copia.siguiente
-
+    
     def test_invertir(self):
 
         """
@@ -348,7 +348,7 @@ class Test_LDE(unittest.TestCase):
             nodo_invertido = nodo_invertido.siguiente
             # Avanzo al siguiente nodo de lista original
             nodo_original = nodo_original.anterior
-
+    
     def recorrer_lista(self, lista):
         """
         Metodo auxiliar para usar en tests de métodos complejos
@@ -384,7 +384,7 @@ class Test_LDE(unittest.TestCase):
                              "Los elementos en la lista recorrida de atras para adelante son diferentes "
                              "a que si la recorremos de adelante para atrás.")
             nodo = nodo.anterior
-
+    
     def test_metodo_concatenar(self):
         """
         Verifico que funcione bien la concatenacion de listas mediante el metodo
@@ -449,8 +449,7 @@ class Test_LDE(unittest.TestCase):
                              "No coinciden los nodos de la lista 2 con la lista concatenada")
             nodo_original = nodo_original.siguiente
             nodo_concat = nodo_concat.siguiente
-
-    '''
+    
 if __name__ == "__main__":
     unittest.main()
     
