@@ -20,16 +20,21 @@ class Mazo():
     def poner_carta_arriba(self, carta):
         self.mazo.agregar_al_final(carta) 
     
-    def sacar_carta_arriba(self):
-        carta=self.mazo.extraer()
-        carta.visible=True
+    def sacar_carta_arriba(self, mostrar=False):
+        carta = self.mazo.extraer()
+        carta.visible = mostrar  # Establece la visibilidad de la carta según el argumento
         return carta
+    # def sacar_carta_arriba(self):
+    #     carta=self.mazo.extraer()
+    #     carta.visible= True
+    #     carta.__str__()
+    #     return carta
         
     def poner_carta_abajo(self, carta):
         self.mazo.agregar_al_inicio(carta)
     
-    def len(self):
-        return self.mazo.tamanio()
+    def __len__(self):
+        return self.mazo.__len__()
 
 if __name__ == '__main__':
     try:
