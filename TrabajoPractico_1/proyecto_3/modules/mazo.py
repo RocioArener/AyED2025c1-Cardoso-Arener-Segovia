@@ -21,6 +21,8 @@ class Mazo():
         self.mazo.agregar_al_final(carta) 
     
     def sacar_carta_arriba(self, mostrar=False):
+        if len(self.mazo)==0:
+            raise DequeEmptyError("Sin cartar en el mazo")
         carta = self.mazo.extraer()
         carta.visible = mostrar  # Establece la visibilidad de la carta según el argumento
         return carta
