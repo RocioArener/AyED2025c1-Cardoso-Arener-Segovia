@@ -4,8 +4,6 @@ Created on Sun Aug 21 11:23:53 2022
 
 @author: Cátedra de Algoritmos y Estructura de Datos
 """
-
-
 from modules.carta import Carta
 from modules.mazo import Mazo
 import unittest
