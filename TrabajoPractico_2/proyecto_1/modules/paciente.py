@@ -40,33 +40,37 @@ class Paciente:
         cad = self.__nombre + ' '
         cad += self.__apellido + '\t -> '
         cad += str(self.__riesgo) + '-' + self.__descripcion
-        cad+= "  "+str(self.__fecha_y_hora)
+        cad += "  "+str(self.__fecha_y_hora)
         return cad
+    def __repr__(self):
+        cad = self.__nombre + ' '
+        cad += self.__apellido + '\t -> '
+        cad += str(self.__riesgo) + '-' + self.__descripcion
+        cad += "  "+str(self.__fecha_y_hora)
+        return cad
+    
     def __lt__(self,otro):
         if self.get_riesgo() < otro.get_riesgo():
-            return self
+            return True
         elif self.get_riesgo() == otro.get_riesgo():
             if self.get_hora() < otro.get_hora():
-                return self
-        else:
-            return otro
+                return True
 
-    
-if __name__=="__main__":
-    ahora = datetime.datetime.now()
-    p1= Paciente(ahora)
-    time.sleep(5)
-    ahora = datetime.datetime.now()
-    p2= Paciente(ahora)
-    print(p1)
-    print(p2)
-    if p1>p2:
-        print ("hola")
-        print(p1)
+# if __name__=="__main__":
+#     ahora = datetime.datetime.now()
+#     p1= Paciente(ahora)
+#     time.sleep(3)
+#     ahora = datetime.datetime.now()
+#     p2= Paciente(ahora)
+#     print(p1)
+#     print(p2)
+#     if p1<p2:
+#         print ("p1 es mas urgente que p2")
+#         print(p1)
 
-    else:
-        print("chau")
-        print(p2)
-    print(p1.get_hora())
+#     else:
+#         print("p2 es mas urgente que p1")
+#         print(p2)
+#     print(p1.get_hora())
         
         

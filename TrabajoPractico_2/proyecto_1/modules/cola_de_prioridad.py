@@ -1,6 +1,7 @@
 # módulo para organizar funciones o clases utilizadas en nuestro proyecto
 # Crear tantos módulos como sea necesario para organizar el código
 import time
+from modules.paciente import Paciente
 # from modules.paciente import Paciente
 
 class MonticuloBinario:
@@ -49,33 +50,25 @@ class MonticuloBinario:
         self.infiltAbajo(1)
         return valorSacado
     
-    def len(self,lista):
-        self.tamanoActual=len(lista)
+    # def len(self,lista):
+    #     self.tamanoActual=len(lista)
 
     def mostrar(self):
-        return self.listaMonticulo[1:]
+        print (self.listaMonticulo[1:])
     
-# class Cola_prioridad():
-#     def __init__(self):
-#         self.cola_prioridad=MonticuloBinario()
-
-
-#     def llega_paciente(self,paciente):
-#         if paciente.get_riesgo == 
-#         self.cola_prioridad.insertar(paciente)
-
-#     def atender_paciente(self):
-#         self.cola_prioridad.eliminarMin()
-
-
+    def __str__(self):
+        return str(self.listaMonticulo[1:])
+    
 if __name__=="__main__":
    mont= MonticuloBinario()
-   mont.insertar(2)
-   mont.insertar(5)
-   mont.insertar(5)
-   mont.insertar(10)
-   mont.insertar(1)
-   mont.insertar(4)
-   mont.insertar(14)
-   mont.eliminarMin()
-   print(mont.mostrar())
+   p1= Paciente("2023-10-01 12:00:00")
+   p2= Paciente("2023-10-01 12:00:01")
+   mont.insertar(p1)
+   mont.insertar(p2)
+#    mont.insertar(5)
+#    mont.insertar(10)
+#    mont.insertar(1)
+#    mont.insertar(4)
+#    mont.insertar(14)
+#    mont.eliminarMin()
+   mont.mostrar()
