@@ -2,7 +2,7 @@
 
 
 import unittest
-from modulos.abb import ABB
+from modules.abb import ABB
 import numpy as np
 
 

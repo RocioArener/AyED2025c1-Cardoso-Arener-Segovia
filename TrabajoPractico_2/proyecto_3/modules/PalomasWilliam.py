@@ -76,6 +76,9 @@ class Grafo:
     def decrementarClave(self, vertice, nuevaDistancia):
         if vertice in self.listaVertices:
             vertice.asignarDistancia(nuevaDistancia)
+    
+    def ordenAlfabetico(self):
+        
 
 def prim(G,inicio):
     cp = MonticuloBinario()
@@ -93,8 +96,7 @@ def prim(G,inicio):
               verticeSiguiente.asignarPredecesor(verticeActual)
               verticeSiguiente.asignarDistancia(nuevoCosto)
               cp.decrementarClave(verticeSiguiente,nuevoCosto)
-
-
+    
 
 if __name__ == "__main__":
     g = Grafo()
