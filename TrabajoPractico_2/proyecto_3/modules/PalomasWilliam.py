@@ -125,10 +125,7 @@ def prim(G,inicio):
     #           #verfica que no haya pasado por ese vertice y el nuevo costo sea menor al costo guardado
     #           verticeSiguiente.asignarPredecesor(verticeActual)
     #           verticeSiguiente.asignarDistancia(nuevoCosto)
-    #           colaprioridad.decrementarClave(verticeSiguiente,nuevoCosto)
-
-#Probar con dijkstra
-# con una herencia de vertice mejorado            
+    #           colaprioridad.decrementarClave(verticeSiguiente,nuevoCosto)         
     
 if __name__ == "__main__":
     g = Grafo()

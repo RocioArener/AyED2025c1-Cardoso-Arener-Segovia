@@ -52,6 +52,7 @@ class AVL:
 
     def __len__(self):
         return self.tamano
+    
     def _agregar(self,clave,valor,nodoActual):
         if clave < nodoActual.clave:
             if nodoActual.tieneHijoIzquierdo():
@@ -78,6 +79,7 @@ class AVL:
 
             if nodo.padre.factorEquilibrio != 0:
                     self.actualizarEquilibrio(nodo.padre)
+
     def __setitem__(self,c,v):
          self._agregar(c,v)
 
