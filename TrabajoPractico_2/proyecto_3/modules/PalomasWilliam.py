@@ -92,23 +92,44 @@ class Grafo:
     
 
 def prim(G,inicio):
-    colaprioridad = MonticuloBinario()
-    for v in G: #Para cada vertice en el grafo inicializa la distancia de cada vertice a infinito y el predecesor a None
+    # Obtener el objeto Vertice desde el ID
+    inicio = G.obtenerVertice(inicio.id)
+    if inicio is None:
+        raise ValueError(f"El vértice {inicio.id} no existe en el grafo")
+    cp = MonticuloBinario()
+    for v in G:
         v.asignarDistancia(sys.maxsize)
         v.asignarPredecesor(None)
-    inicio.asignarDistancia(0) # asigna la distancia del vertice de inicio (en nuestro caso aldea Peligro) a 0
-    colaprioridad.MonticuloBinario([(v.obtenerDistancia(),v) for v in G]) 
-    while not colaprioridad.estaVacia():
-        verticeActual = colaprioridad.eliminarMin()
+    inicio.asignarDistancia(0)
+    for v in G:
+        cp.insertar((v.obtenerDistancia(), v))
+    while not cp.estaVacia():
+        distanciaActual, verticeActual = cp.eliminarMin()
         for verticeSiguiente in verticeActual.obtenerConexiones():
-          nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
-          if verticeSiguiente in colaprioridad and nuevoCosto<verticeSiguiente.obtenerDistancia():
-              #verfica que no haya pasado por ese vertice y el nuevo costo sea menor al costo guardado
-              verticeSiguiente.asignarPredecesor(verticeActual)
-              verticeSiguiente.asignarDistancia(nuevoCosto)
-              colaprioridad.decrementarClave(verticeSiguiente,nuevoCosto)
-    
+            nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
+        #   if verticeSiguiente in cp and nuevoCosto<verticeSiguiente.obtenerDistancia():
+        #       verticeSiguiente.asignarPredecesor(verticeActual)
+        #       verticeSiguiente.asignarDistancia(nuevoCosto)
+        #       cp.decrementarClave(verticeSiguiente,nuevoCosto)
+            if nuevoCosto < verticeSiguiente.obtenerDistancia():
+                verticeSiguiente.asignarPredecesor(verticeActual)
+                verticeSiguiente.asignarDistancia(nuevoCosto)
+                # Actualizar la prioridad en el montículo
+                cp.insertar((nuevoCosto, verticeSiguiente))
+        
+    # while not colaprioridad.estaVacia():
+    #     verticeActual = colaprioridad.eliminarMin()
+    #     for verticeSiguiente in verticeActual.obtenerConexiones():
+    #       nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
+    #       if verticeSiguiente in colaprioridad and nuevoCosto<verticeSiguiente.obtenerDistancia():
+    #           #verfica que no haya pasado por ese vertice y el nuevo costo sea menor al costo guardado
+    #           verticeSiguiente.asignarPredecesor(verticeActual)
+    #           verticeSiguiente.asignarDistancia(nuevoCosto)
+    #           colaprioridad.decrementarClave(verticeSiguiente,nuevoCosto)
 
+#Probar con dijkstra
+# con una herencia de vertice mejorado            
+    
 if __name__ == "__main__":
     g = Grafo()
     ruta="data/aldeas.txt"
@@ -135,5 +156,5 @@ if __name__ == "__main__":
     #publos y obtener vertices devuelve los  vecinos de cada vertice (pueblo)
     v = g.obtenerVertice('Cebolla')  # Obtiene el vértice con id 'Cebolla'
     print("------------------------")
-    print("cada pueblo deberia enviarle mensajes a:", prim(g,'Peligros'))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
+    print("cada pueblo deberia enviarle mensajes a:", prim(g, g.obtenerVertice('Peligros')))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
     print("------------------------")

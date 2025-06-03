@@ -46,7 +46,23 @@ class MonticuloBinario:
         self.infiltAbajo(1)
         return valorSacado
     
+    # def decrementarClave(self, vertice, nuevaDistancia):
+    #     for i in range(1, self.tamanoActual + 1):
+    #         if self.listaMonticulo[i][1] == vertice:
+    #             self.listaMonticulo[i] = (nuevaDistancia, vertice)
+    #             self.infiltArriba(i)
+    #             break
 
+    def decrementarClave(self, vertice, nuevaDistancia):
+        for i in range(1, self.tamanoActual + 1):
+            if self.listaMonticulo[i][1] == vertice:
+                self.listaMonticulo[i] = (nuevaDistancia, vertice)
+                self.infiltArriba(i)
+                break
+
+    def contiene(self, vertice):
+        return vertice in self.posiciones
+    
     def mostrar(self):
         print (self.listaMonticulo[1:])
     
