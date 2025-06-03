@@ -80,33 +80,33 @@ class Grafo:
                 print(f"Agregando arista de {origen} a {a} con costo {costo}")
                 self.agregarArista(origen, a, int(costo)) 
 
-    def asignarDistancia(self, distancia):
-        self.distancia = distancia
+    # def asignarDistancia(self, distancia):
+    #     self.distancia = distancia
     
-    def asignarPredecesor(self, predecesor):
-        self.predecesor = predecesor
+    # def asignarPredecesor(self, predecesor):
+    #     self.predecesor = predecesor
 
-    def decrementarClave(self, vertice, nuevaDistancia):
-        if vertice in self.listaVertices:
-            vertice.asignarDistancia(nuevaDistancia)
+    # def decrementarClave(self, vertice, nuevaDistancia):
+    #     if vertice in self.listaVertices:
+    #         vertice.asignarDistancia(nuevaDistancia)
     
 
 def prim(G,inicio):
-    cp = MonticuloBinario()
-    for v in G:
+    colaprioridad = MonticuloBinario()
+    for v in G: #Para cada vertice en el grafo inicializa la distancia de cada vertice a infinito y el predecesor a None
         v.asignarDistancia(sys.maxsize)
         v.asignarPredecesor(None)
-    inicio.asignarDistancia(0)
-    cp.construirMonticulo([(v.obtenerDistancia(),v) for v in G])
-    while not cp.estaVacia():
-        verticeActual = cp.eliminarMin()
+    inicio.asignarDistancia(0) # asigna la distancia del vertice de inicio (en nuestro caso aldea Peligro) a 0
+    colaprioridad.MonticuloBinario([(v.obtenerDistancia(),v) for v in G]) 
+    while not colaprioridad.estaVacia():
+        verticeActual = colaprioridad.eliminarMin()
         for verticeSiguiente in verticeActual.obtenerConexiones():
           nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
-          if verticeSiguiente in cp and nuevoCosto<verticeSiguiente.obtenerDistancia():
+          if verticeSiguiente in colaprioridad and nuevoCosto<verticeSiguiente.obtenerDistancia():
               #verfica que no haya pasado por ese vertice y el nuevo costo sea menor al costo guardado
               verticeSiguiente.asignarPredecesor(verticeActual)
               verticeSiguiente.asignarDistancia(nuevoCosto)
-              cp.decrementarClave(verticeSiguiente,nuevoCosto)
+              colaprioridad.decrementarClave(verticeSiguiente,nuevoCosto)
     
 
 if __name__ == "__main__":
