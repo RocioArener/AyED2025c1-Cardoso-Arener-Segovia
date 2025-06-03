@@ -2,7 +2,9 @@ from modules.cola_de_prioridad import MonticuloBinario
 import sys
 
 class Vertice:
-    def __init__(self,clave):
+    def __init__(self,clave, distancia=sys.maxsize, predecesor=None):
+        self.distancia = distancia
+        self.predecesor = predecesor
         self.id = clave
         self.conectadoA = {}
 
@@ -10,7 +12,7 @@ class Vertice:
         self.conectadoA[vecino] = ponderacion
 
     def __str__(self):
-        return str(self.id) + ' conectadoA: ' + str([x.id for x in self.conectadoA])
+        return str(self.id) + ' conectado a: ' + str([x.id for x in self.conectadoA])
 
     def obtenerConexiones(self):
         return self.conectadoA.keys()
@@ -20,6 +22,12 @@ class Vertice:
 
     def obtenerPonderacion(self,vecino):
         return self.conectadoA[vecino]
+    
+    def asignarDistancia(self, distancia):
+        self.distancia = distancia
+
+    def asignarPredecesor(self, predecesor):
+        self.predecesor = predecesor    
     
 
 class Grafo:
@@ -34,10 +42,15 @@ class Grafo:
         return nuevoVertice
 
     def obtenerVertice(self,n):
+        lista = list(self.listaVertices.keys()) #convierto el diccionario a lista
         if n in self.listaVertices:
             return self.listaVertices[n]
         else:
             return None
+        
+    def ordenarGrafo(self,):
+        grafo_ordenado = sorted(self.listaVertices, key=lambda item: item[0])   
+        return grafo_ordenado
 
     def __contains__(self,n):
         return n in self.listaVertices
@@ -77,8 +90,6 @@ class Grafo:
         if vertice in self.listaVertices:
             vertice.asignarDistancia(nuevaDistancia)
     
-    def ordenAlfabetico(self):
-        
 
 def prim(G,inicio):
     cp = MonticuloBinario()
@@ -103,10 +114,26 @@ if __name__ == "__main__":
     ruta="data/aldeas.txt"
     print(ruta)
     g.cargarGrafo(ruta)
-    for v in g:
-        for w in v.obtenerConexiones():
-            print(f"{v.obtenerId()} -> {w.obtenerId()} con ponderacion {v.obtenerPonderacion(w)}")
+
+    # Para cada aldea, mostrar de qué vecina debería recibir la noticia, y a qué vecinas debería enviar réplicas, 
+    # siendo que se está enviando el mensaje de la forma más eficiente a las 21 aldeas. Tomar en cuenta que desde 
+    # Peligros solamente se envían noticias a una o más aldeas vecinas.
+
+    for v in g: #Itera sobre cada vértice (aldea) en el grafo
+        for vecino in v.obtenerConexiones(): #Itera sobre las conexiones del vértice v
+            print(f"{v.obtenerId()} -> {vecino.obtenerId()} con ponderacion {v.obtenerPonderacion(vecino)}")
         print(v)
+    
+    print("vertice:", v)# se imprime el ultimo v porque es el ultimo que queda guardado al recorrer todo el grafo
+    print("------------------------")
+    print("Grafo ordenado:") 
+    print(g.ordenarGrafo()) # devuelve el grafo ordenado alfabeticamente por los nombres de origen
+    print("------------------------")
     print("Vertices del grafo:", g.obtenerVertices())
-    print("Vertice 2:", g.obtenerVertice('2'))
-    print("Conexiones de A:", g.obtenerVertice('2'))
+    print("------------------------")
+    print("Vertice 2:", g.obtenerVertice('2')) #no se puede encontrar el vertice '2' porque id son los nombresde los
+    #publos y obtener vertices devuelve los  vecinos de cada vertice (pueblo)
+    v = g.obtenerVertice('Cebolla')  # Obtiene el vértice con id 'Cebolla'
+    print("------------------------")
+    print("cada pueblo deberia enviarle mensajes a:", prim(g,'Peligros'))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
+    print("------------------------")
