@@ -83,7 +83,6 @@ class Grafo:
 
 
     def prim(self,inicio):
-        c=0
         cp = MonticuloBinario()
         for v in self:
             v.asignarDistancia(sys.maxsize)
@@ -99,9 +98,7 @@ class Grafo:
                     verticeSiguiente.asignarPredecesor(verticeActual)
                     verticeSiguiente.asignarDistancia(nuevoCosto)
                     cp.decrementarClave(verticeSiguiente,nuevoCosto)
-            print(f"Procesando {verticeActual.obtenerId()} -> {verticeSiguiente.obtenerId()} con costo {nuevoCosto}")
-            c+= nuevoCosto
-        return c    
+            print(f"El mensaje se envia desde aldea {verticeSiguiente.obtenerId()} a aldea {verticeActual.obtenerId()} ")  
         
 if __name__ == "__main__":
     g = Grafo()
@@ -109,31 +106,15 @@ if __name__ == "__main__":
     print(ruta)
     g.cargarGrafo(ruta)
 
-    # Para cada aldea, mostrar de qué vecina debería recibir la noticia, y a qué vecinas debería enviar réplicas, 
-    # siendo que se está enviando el mensaje de la forma más eficiente a las 21 aldeas. Tomar en cuenta que desde 
-    # Peligros solamente se envían noticias a una o más aldeas vecinas.
-
-    for v in g: #Itera sobre cada vértice (aldea) en el grafo
-        for vecino in v.obtenerConexiones(): #Itera sobre las conexiones del vértice v
-            print(f"{v.obtenerId()} -> {vecino.obtenerId()} con ponderacion {v.obtenerPonderacion(vecino)}")
-        print(v)
-    
-    print("vertice:", v)# se imprime el ultimo v porque es el ultimo que queda guardado al recorrer todo el grafo
-    print("------------------------") 
-    v= g.obtenerVertice('Peligros')
-    print(v.obtenerConexiones) 
-   
     print("------------------------") 
     print("Grafo ordenado:") 
     print(g.ordenarGrafo()) # devuelve el grafo ordenado alfabeticamente por los nombres de origen
     print("------------------------")
-    print("Vertices del grafo:", g.obtenerVertices())
+    g.prim(g.obtenerVertice('Peligros'))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
+    distancia=0
+    for v in g:
+        distancia+=v.obtenerDistancia()
     print("------------------------")
-    print("Vertice 2:", g.obtenerVertice('2')) #no se puede encontrar el vertice '2' porque id son los nombresde los
-    #publos y obtener vertices devuelve los  vecinos de cada vertice (pueblo)
-    v = g.obtenerVertice('Cebolla') 
-    print (type(v)) # Obtiene el vértice con id 'Cebolla'
-    print("------------------------")
-    print("la distancia minimma de recorrido es:", g.prim(g.obtenerVertice('Peligros')))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
+    print(f'La suma de todas las distancias recorridas por todas las palomas enviadas desde cada palomar es {distancia} leguas')
     print("------------------------")
    # Obtiene las conexiones del vértice 'Peligros'
