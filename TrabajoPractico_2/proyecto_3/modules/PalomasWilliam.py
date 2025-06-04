@@ -27,7 +27,12 @@ class Vertice:
         self.distancia = distancia
 
     def asignarPredecesor(self, predecesor):
-        self.predecesor = predecesor    
+        self.predecesor = predecesor
+    
+    def obtenerDistancia(self):
+        return self.distancia
+    
+
     
 
 class Grafo:
@@ -42,7 +47,6 @@ class Grafo:
         return nuevoVertice
 
     def obtenerVertice(self,n):
-        lista = list(self.listaVertices.keys()) #convierto el diccionario a lista
         if n in self.listaVertices:
             return self.listaVertices[n]
         else:
@@ -51,9 +55,6 @@ class Grafo:
     def ordenarGrafo(self,):
         grafo_ordenado = sorted(self.listaVertices, key=lambda item: item[0])   
         return grafo_ordenado
-
-    def __contains__(self,n):
-        return n in self.listaVertices
 
     def agregarArista(self,origen,destino,costo=0):
         if origen not in self.listaVertices:
@@ -80,53 +81,28 @@ class Grafo:
                 print(f"Agregando arista de {origen} a {a} con costo {costo}")
                 self.agregarArista(origen, a, int(costo)) 
 
-    # def asignarDistancia(self, distancia):
-    #     self.distancia = distancia
-    
-    # def asignarPredecesor(self, predecesor):
-    #     self.predecesor = predecesor
 
-    # def decrementarClave(self, vertice, nuevaDistancia):
-    #     if vertice in self.listaVertices:
-    #         vertice.asignarDistancia(nuevaDistancia)
-    
-
-def prim(G,inicio):
-    # Obtener el objeto Vertice desde el ID
-    inicio = G.obtenerVertice(inicio.id)
-    if inicio is None:
-        raise ValueError(f"El vértice {inicio.id} no existe en el grafo")
-    cp = MonticuloBinario()
-    for v in G:
-        v.asignarDistancia(sys.maxsize)
-        v.asignarPredecesor(None)
-    inicio.asignarDistancia(0)
-    for v in G:
-        cp.insertar((v.obtenerDistancia(), v))
-    while not cp.estaVacia():
-        distanciaActual, verticeActual = cp.eliminarMin()
-        for verticeSiguiente in verticeActual.obtenerConexiones():
-            nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
-        #   if verticeSiguiente in cp and nuevoCosto<verticeSiguiente.obtenerDistancia():
-        #       verticeSiguiente.asignarPredecesor(verticeActual)
-        #       verticeSiguiente.asignarDistancia(nuevoCosto)
-        #       cp.decrementarClave(verticeSiguiente,nuevoCosto)
-            if nuevoCosto < verticeSiguiente.obtenerDistancia():
-                verticeSiguiente.asignarPredecesor(verticeActual)
-                verticeSiguiente.asignarDistancia(nuevoCosto)
-                # Actualizar la prioridad en el montículo
-                cp.insertar((nuevoCosto, verticeSiguiente))
+    def prim(self,inicio):
+        c=0
+        cp = MonticuloBinario()
+        for v in self:
+            v.asignarDistancia(sys.maxsize)
+            v.asignarPredecesor(None)
+        inicio.asignarDistancia(0)
+        for v in self:
+            cp.insertar((v.obtenerDistancia(), v))
+        while not cp.estaVacia():
+            verticeActual = cp.eliminarMin()[1]
+            for verticeSiguiente in verticeActual.obtenerConexiones():
+                nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
+                if verticeSiguiente in cp and nuevoCosto < verticeSiguiente.obtenerDistancia():
+                    verticeSiguiente.asignarPredecesor(verticeActual)
+                    verticeSiguiente.asignarDistancia(nuevoCosto)
+                    cp.decrementarClave(verticeSiguiente,nuevoCosto)
+            print(f"Procesando {verticeActual.obtenerId()} -> {verticeSiguiente.obtenerId()} con costo {nuevoCosto}")
+            c+= nuevoCosto
+        return c    
         
-    # while not colaprioridad.estaVacia():
-    #     verticeActual = colaprioridad.eliminarMin()
-    #     for verticeSiguiente in verticeActual.obtenerConexiones():
-    #       nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
-    #       if verticeSiguiente in colaprioridad and nuevoCosto<verticeSiguiente.obtenerDistancia():
-    #           #verfica que no haya pasado por ese vertice y el nuevo costo sea menor al costo guardado
-    #           verticeSiguiente.asignarPredecesor(verticeActual)
-    #           verticeSiguiente.asignarDistancia(nuevoCosto)
-    #           colaprioridad.decrementarClave(verticeSiguiente,nuevoCosto)         
-    
 if __name__ == "__main__":
     g = Grafo()
     ruta="data/aldeas.txt"
@@ -143,7 +119,11 @@ if __name__ == "__main__":
         print(v)
     
     print("vertice:", v)# se imprime el ultimo v porque es el ultimo que queda guardado al recorrer todo el grafo
-    print("------------------------")
+    print("------------------------") 
+    v= g.obtenerVertice('Peligros')
+    print(v.obtenerConexiones) 
+   
+    print("------------------------") 
     print("Grafo ordenado:") 
     print(g.ordenarGrafo()) # devuelve el grafo ordenado alfabeticamente por los nombres de origen
     print("------------------------")
@@ -151,7 +131,9 @@ if __name__ == "__main__":
     print("------------------------")
     print("Vertice 2:", g.obtenerVertice('2')) #no se puede encontrar el vertice '2' porque id son los nombresde los
     #publos y obtener vertices devuelve los  vecinos de cada vertice (pueblo)
-    v = g.obtenerVertice('Cebolla')  # Obtiene el vértice con id 'Cebolla'
+    v = g.obtenerVertice('Cebolla') 
+    print (type(v)) # Obtiene el vértice con id 'Cebolla'
     print("------------------------")
-    print("cada pueblo deberia enviarle mensajes a:", prim(g, g.obtenerVertice('Peligros')))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
+    print("la distancia minimma de recorrido es:", g.prim(g.obtenerVertice('Peligros')))  # Ejecuta el algoritmo de Prim a partir del vértice 'Peligros'
     print("------------------------")
+   # Obtiene las conexiones del vértice 'Peligros'

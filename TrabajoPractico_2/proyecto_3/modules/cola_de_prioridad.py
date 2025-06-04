@@ -9,7 +9,7 @@ class MonticuloBinario:
 
     def infiltArriba(self,i):
         while i // 2 > 0:
-            if self.listaMonticulo[i] < self.listaMonticulo[i // 2] :
+            if self.listaMonticulo[i][0] < self.listaMonticulo[i // 2][0] :
                 tmp = self.listaMonticulo[i // 2]
                 self.listaMonticulo[i // 2] = self.listaMonticulo[i]
                 self.listaMonticulo[i] = tmp
@@ -18,7 +18,7 @@ class MonticuloBinario:
     def infiltAbajo(self,i):
         while i*2 <= self.tamanoActual:
             hm = self.hijoMin(i)
-            if self.listaMonticulo[i] > self.listaMonticulo[hm]:
+            if self.listaMonticulo[i][0] > self.listaMonticulo[hm][0]:
                 tmp = self.listaMonticulo[i]
                 self.listaMonticulo[i] = self.listaMonticulo[hm]
                 self.listaMonticulo[hm] = tmp
@@ -28,7 +28,7 @@ class MonticuloBinario:
         if i * 2 + 1 > self.tamanoActual:
             return i * 2
         else:
-            if self.listaMonticulo[i*2] < self.listaMonticulo[i*2+1]:
+            if self.listaMonticulo[i*2][0] < self.listaMonticulo[i*2+1][0]:
                 return i * 2
             else:
                 return i * 2 + 1
@@ -45,13 +45,6 @@ class MonticuloBinario:
         self.listaMonticulo.pop()
         self.infiltAbajo(1)
         return valorSacado
-    
-    # def decrementarClave(self, vertice, nuevaDistancia):
-    #     for i in range(1, self.tamanoActual + 1):
-    #         if self.listaMonticulo[i][1] == vertice:
-    #             self.listaMonticulo[i] = (nuevaDistancia, vertice)
-    #             self.infiltArriba(i)
-    #             break
 
     def decrementarClave(self, vertice, nuevaDistancia):
         for i in range(1, self.tamanoActual + 1):
@@ -59,6 +52,9 @@ class MonticuloBinario:
                 self.listaMonticulo[i] = (nuevaDistancia, vertice)
                 self.infiltArriba(i)
                 break
+
+    def estaVacia(self):
+        return self.tamanoActual == 0        
 
     def contiene(self, vertice):
         return vertice in self.posiciones
@@ -68,5 +64,8 @@ class MonticuloBinario:
     
     def __str__(self):
         return str(self.listaMonticulo[1:])
+    
+    def __contains__(self, vertice):
+        return vertice in [v[1] for v in self.listaMonticulo[1:]]
     
 # if __name__=="__main__":
