@@ -32,7 +32,7 @@ class Testabb(unittest.TestCase):
         # verifico posicion relativa desde la raiz
         self.assertEqual(self.abb.raiz.clave, 45,
                          "Nodo insertado incorrectamente")
-        self.assertEqual(self.abb.raiz.cargaUtil, 90,
+        self.assertEqual(self.abb.raiz.valor, 90,
                          "Nodo insertado incorrectamente")
         self.assertEqual(self.abb.raiz.hijoDerecho.clave, 100,
                          "Nodo insertado incorrectamente")

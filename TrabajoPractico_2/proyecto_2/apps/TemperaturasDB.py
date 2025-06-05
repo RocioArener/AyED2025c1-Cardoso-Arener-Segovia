@@ -10,16 +10,62 @@ class BaseTemperaturas:
             raise ValueError("La fecha debe ser una instancia de datetime.date")
         if not isinstance(temperatura, (int, float)):
             raise ValueError("La temperatura debe ser un número")
-        self.avl.insertar(fecha, temperatura)
+        self.avl.agregar(fecha, temperatura)
 
 
+    def devolver_temperatura(self, fecha): #devuelve la medida de temperatura en la fecha determinada.
+        if not isinstance(fecha, datetime.date):
+            raise ValueError("La fecha debe ser una instancia de datetime.date")
+        return self.avl.obtener(fecha)
 
-    def devolver_temperatura(fecha): #devuelve la medida de temperatura en la fecha determinada.
-        pass
-    def max_temp_rango(fecha1, fecha2): #devuelve la temperatura máxima entre los rangos fecha1 y fecha2 inclusive (fecha1 < fecha2). Esto no implica que los intervalos del rango deban ser fechas incluidas previamente en el árbol.
-        pass
+def max_temp_rango(self, fecha1, fecha2):
+    if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
+        raise ValueError("Las fechas deben ser instancias de datetime.date")
+    if fecha1 > fecha2:
+        raise ValueError("fecha1 debe ser menor o igual que fecha2")
+
+    def buscar_max(nodo):
+        if nodo is None:
+            return None
+        max_izq = max_der = max_centro = None
+
+        if nodo.clave > fecha2:
+            return buscar_max(nodo.hijoIzquierdo)
+        elif nodo.clave < fecha1:
+            return buscar_max(nodo.hijoDerecho)
+        else:
+            max_izq = buscar_max(nodo.hijoIzquierdo)
+            max_der = buscar_max(nodo.hijoDerecho)
+            max_centro = nodo.valor
+
+        candidatos = [x for x in [max_izq, max_der, max_centro] if x is not None]
+        return max(candidatos) if candidatos else None
+
+    return buscar_max(self.avl.raiz)    
+
     def min_temp_rango(fecha1, fecha2): #devuelve la temperatura mínima entre los rangos fecha1 y fecha2 inclusive (fecha1 < fecha2). Esto no implica que los intervalos del rango deban ser fechas incluidas previamente en el árbol.
-        pass
+        if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
+            raise ValueError("Las fechas deben ser instancias de datetime.date")        
+        if fecha1 > fecha2:
+            raise ValueError("fecha1 debe ser menor o igual que fecha2")
+        
+        def buscar_min(nodo):
+            if nodo is None:
+                return None
+            min_izq = min_der = min_centro = None
+
+            if nodo.clave > fecha2:
+                return buscar_min(nodo.hijoIzquierdo)
+            elif nodo.clave < fecha1:
+                return buscar_min(nodo.hijoDerecho)
+            else:
+                min_izq = buscar_min(nodo.hijoIzquierdo)
+                min_der = buscar_min(nodo.hijoDerecho)
+                min_centro = nodo.valor
+
+            candidatos = [x for x in [min_izq, min_der, min_centro] if x is not None]
+            return min(candidatos) if candidatos else None
+        
     def temp_extremos_rango(fecha1, fecha2): #devuelve la temperatura mínima y máxima entre los rangos fecha1 y fecha2 inclusive (fecha1 < fecha2).
         pass
     def borrar_temperatura(fecha): #recibe una fecha y elimina del árbol la medición correspondiente a esa fecha.
@@ -28,3 +74,14 @@ class BaseTemperaturas:
         pass
     def cantidad_muestras():# devuelve la cantidad de muestras de la BD.
         pass
+
+
+
+
+
+        # def longitud(self):
+    #     return self.tamano
+
+    # def __len__(self):
+    #     return self.tamano
+    
