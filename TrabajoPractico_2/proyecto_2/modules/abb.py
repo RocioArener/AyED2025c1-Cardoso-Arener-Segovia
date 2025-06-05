@@ -8,6 +8,9 @@ class NodoArbol:
         self.altura = 1
         self.factorEquilibrio = 0
 
+    def esRaiz(self):
+        return self.padre is None    
+
     def __str__(self):
         izq = str(self.hijoIzquierdo) if self.hijoIzquierdo else ""
         der = str(self.hijoDerecho) if self.hijoDerecho else ""
@@ -90,42 +93,69 @@ class ABB:
             if nodo.padre.factorEquilibrio != 0:
                     self.actualizarEquilibrio(nodo.padre)
 
-    def rotarIzquierda(self,rotRaiz):
-        nuevaRaiz = rotRaiz.hijoDerecho
-        rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo
-        if nuevaRaiz.hijoIzquierdo != None:
-            nuevaRaiz.hijoIzquierdo.padre = rotRaiz
-        nuevaRaiz.padre = rotRaiz.padre
-        if rotRaiz.esRaiz():
-            self.raiz = nuevaRaiz
-        else:
-            if rotRaiz.esHijoIzquierdo():
-                    rotRaiz.padre.hijoIzquierdo = nuevaRaiz
-            else:
-                rotRaiz.padre.hijoDerecho = nuevaRaiz
-        nuevaRaiz.hijoIzquierdo = rotRaiz
-        rotRaiz.padre = nuevaRaiz
-        rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0)
-        nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0)
+    # def rotarIzquierda(self,rotRaiz):
+    #     nuevaRaiz = rotRaiz.hijoDerecho
+    #     rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo
+    #     if nuevaRaiz.hijoIzquierdo != None:
+    #         nuevaRaiz.hijoIzquierdo.padre = rotRaiz
+    #     nuevaRaiz.padre = rotRaiz.padre
+    #     if rotRaiz.esRaiz():
+    #         self.raiz = nuevaRaiz
+    #     else:
+    #         if rotRaiz.hijoIzquierdo():
+    #                 rotRaiz.padre.hijoIzquierdo = nuevaRaiz
+    #         else:
+    #             rotRaiz.padre.hijoDerecho = nuevaRaiz
+    #     nuevaRaiz.hijoIzquierdo = rotRaiz
+    #     rotRaiz.padre = nuevaRaiz
+    #     rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0)
+    #     nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0)
             
-    def rotarDerecha(self,rotRaiz):
-        nuevaRaiz = rotRaiz.hijoIzquierdo 
-        rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho
-        if nuevaRaiz.hijoDerecho != None:
-            nuevaRaiz.hijoDerecho.padre = rotRaiz  
-        nuevaRaiz.padre = rotRaiz.padre
-        if rotRaiz.esRaiz():
-            self.raiz = nuevaRaiz
-        else:
-            if rotRaiz.esHijoDerecho():
-                rotRaiz.padre.hijoDerecho = nuevaRaiz
-            else:
-                rotRaiz.padre.hijoIzquierdo = nuevaRaiz
-        nuevaRaiz.hijoDerecho = rotRaiz
-        rotRaiz.padre = nuevaRaiz
-        rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio - 1 - max(nuevaRaiz.factorEquilibrio, 0)
-        nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio - 1 + min(rotRaiz.factorEquilibrio, 0)
+    # def rotarDerecha(self,rotRaiz):
+    #     nuevaRaiz = rotRaiz.hijoIzquierdo 
+    #     rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho
+    #     if nuevaRaiz.hijoDerecho != None:
+    #         nuevaRaiz.hijoDerecho.padre = rotRaiz  
+    #     nuevaRaiz.padre = rotRaiz.padre
+    #     if rotRaiz.esRaiz():
+    #         self.raiz = nuevaRaiz
+    #     else:
+    #         if rotRaiz.hijoDerecho():
+    #             rotRaiz.padre.hijoDerecho = nuevaRaiz
+    #         else:
+    #             rotRaiz.padre.hijoIzquierdo = nuevaRaiz
+    #     nuevaRaiz.hijoDerecho = rotRaiz
+    #     rotRaiz.padre = nuevaRaiz
+    #     rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio - 1 - max(nuevaRaiz.factorEquilibrio, 0)
+    #     nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio - 1 + min(rotRaiz.factorEquilibrio, 0)
         
+    def rotarIzquierda(self, nodo):
+        nuevaraiz = nodo.hijoDerecho 
+        nodo.hijoDerecho = nuevaraiz.hijoIzquierdo
+        nuevaraiz.hijoIzquierdo = nodo
+       
+        nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
+        nodo.equilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho)
+
+        nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho))
+        nuevaraiz.equilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho)
+        
+        return nuevaraiz 
+       
+    def rotarDerecha(self, nodo):
+        nuevaraiz = nodo.hijoIzquierdo 
+        nodo.hijoIzquierdo = nuevaraiz.hijoDerecho 
+        nuevaraiz.hijoDerecho = nodo
+        
+        nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho)) #se actualiza la altura del nodo actual, siendo 1 + la máxima altura de sus hijos
+        nodo.equilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho) #se actualiza el factor de equilibrio del nodo actual, siendo la diferencia de alturas entre sus hijos izquierdo y derecho
+
+        nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho)) #se actualiza la altura de la nueva raíz, siendo 1 + la máxima altura de sus hijos
+        nuevaraiz.equilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho) #se actualiza el factor de equilibrio de la nueva raiz, siendo la diferencia de alturas entre sus hijos izquierdo y derecho
+
+        return nuevaraiz 
+    
+
     def altura(self, nodo=None):
         if nodo is None:
             return 0
@@ -141,5 +171,8 @@ if  __name__ == "__main__":
     arbol.agregar(4, "valor 4")
     arbol.agregar(6, "valor 6")
     arbol.agregar(8, "valor 8")
+    arbol.agregar(100, "valor 100")
+    arbol.agregar(1, "valor 1")
+    arbol.agregar(10, "valor")
     print(arbol)  # Debería imprimir "valor raiz"
 
