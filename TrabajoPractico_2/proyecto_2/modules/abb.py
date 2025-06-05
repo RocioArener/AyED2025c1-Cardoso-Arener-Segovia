@@ -1,4 +1,4 @@
-class NodoArbol:
+class NodoArbol: # Clase que representa un nodo en el árbol binario de búsqueda balanceado
     def __init__(self,clave,valor):
         self.clave = clave
         self.valor = valor
@@ -8,15 +8,15 @@ class NodoArbol:
         self.altura = 1
         self.factorEquilibrio = 0
 
-    def esRaiz(self):
+    def esRaiz(self): # Método que verifica si el nodo es la raíz del árbol
         return self.padre is None    
 
-    def __str__(self):
+    def __str__(self): # Método que devuelve una representación en cadena del nodo
         izq = str(self.hijoIzquierdo) if self.hijoIzquierdo else ""
         der = str(self.hijoDerecho) if self.hijoDerecho else ""
         return f"{izq}({self.clave}: {self.valor}){der}"
 
-class ABB:
+class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL)
     def __init__(self):
         self.raiz = None
         self.tamano = 0
@@ -26,10 +26,10 @@ class ABB:
             return "Árbol vacío"
         return str(self.raiz)
 
-    def agregar(self, clave, valor): 
+    def agregar(self, clave, valor): # Método para agregar un nuevo nodo al árbol
         self.raiz = self._agregar(self.raiz, clave, valor) 
 
-    def _agregar(self, nodo, clave, valor): 
+    def _agregar(self, nodo, clave, valor): # Método recursivo para agregar un nuevo nodo al árbol
         if nodo is None:
             nodo = NodoArbol(clave, valor)
             self.tamano += 1
@@ -40,13 +40,13 @@ class ABB:
         else:
             nodo.hijoDerecho = self._agregar(nodo.hijoDerecho, clave, valor)
             nodo.hijoDerecho.padre = nodo
-        return self._balancear(nodo)
+        return self.balancear(nodo)
     
 
-    def obtener(self,clave):
+    def obtener(self,clave): #Metodo para obtener el valor asociado a una clave en el árbol
        return self._obtener(clave,self.raiz)
 
-    def _obtener(self,clave,nodo):
+    def _obtener(self,clave,nodo): # Método recursivo para obtener el valor asociado a una clave en el árbol
        if not nodo:
            return None
        elif nodo.clave == clave:
@@ -57,10 +57,10 @@ class ABB:
            return self._obtener(clave,nodo.hijoDerecho)
 
 
-    def _balancear(self, nodo):
+    def balancear(self, nodo): # Método para balancear el árbol después de agregar un nuevo nodo
         if nodo is None:
             return nodo
-        nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho)) #se actualiza la altura del nodo, siendo 1 + la máxima altura de sus hijos
+        nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho)) #se actualiza la altura del nodo
         nodo.factorEquilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho) #se calcula el factor de equilibrio del nodo, siendo la diferencia de alturas entre sus hijos izquierdo y derecho
 
         if nodo.factorEquilibrio > 1:
@@ -80,55 +80,19 @@ class ABB:
         return nodo #si esta balanceado, se retorna el nodo sin cambios
 
     
-    def actualizarEquilibrio(self,nodo):
-        if nodo.factorEquilibrio > 1 or nodo.factorEquilibrio < -1:
-            self.reequilibrar(nodo)
-            return
-        if nodo.padre != None:
-            if nodo.esHijoIzquierdo():
-                    nodo.padre.factorEquilibrio += 1
-            elif nodo.esHijoDerecho():
-                    nodo.padre.factorEquilibrio -= 1
+    # def actualizarEquilibrio(self,nodo):
+    #     if nodo.factorEquilibrio > 1 or nodo.factorEquilibrio < -1:
+    #         self.reequilibrar(nodo)
+    #         return
+    #     if nodo.padre != None:
+    #         if nodo.esHijoIzquierdo():
+    #                 nodo.padre.factorEquilibrio += 1
+    #         elif nodo.esHijoDerecho():
+    #                 nodo.padre.factorEquilibrio -= 1
 
-            if nodo.padre.factorEquilibrio != 0:
-                    self.actualizarEquilibrio(nodo.padre)
+    #         if nodo.padre.factorEquilibrio != 0:
+    #                 self.actualizarEquilibrio(nodo.padre)
 
-    # def rotarIzquierda(self,rotRaiz):
-    #     nuevaRaiz = rotRaiz.hijoDerecho
-    #     rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo
-    #     if nuevaRaiz.hijoIzquierdo != None:
-    #         nuevaRaiz.hijoIzquierdo.padre = rotRaiz
-    #     nuevaRaiz.padre = rotRaiz.padre
-    #     if rotRaiz.esRaiz():
-    #         self.raiz = nuevaRaiz
-    #     else:
-    #         if rotRaiz.hijoIzquierdo():
-    #                 rotRaiz.padre.hijoIzquierdo = nuevaRaiz
-    #         else:
-    #             rotRaiz.padre.hijoDerecho = nuevaRaiz
-    #     nuevaRaiz.hijoIzquierdo = rotRaiz
-    #     rotRaiz.padre = nuevaRaiz
-    #     rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0)
-    #     nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0)
-            
-    # def rotarDerecha(self,rotRaiz):
-    #     nuevaRaiz = rotRaiz.hijoIzquierdo 
-    #     rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho
-    #     if nuevaRaiz.hijoDerecho != None:
-    #         nuevaRaiz.hijoDerecho.padre = rotRaiz  
-    #     nuevaRaiz.padre = rotRaiz.padre
-    #     if rotRaiz.esRaiz():
-    #         self.raiz = nuevaRaiz
-    #     else:
-    #         if rotRaiz.hijoDerecho():
-    #             rotRaiz.padre.hijoDerecho = nuevaRaiz
-    #         else:
-    #             rotRaiz.padre.hijoIzquierdo = nuevaRaiz
-    #     nuevaRaiz.hijoDerecho = rotRaiz
-    #     rotRaiz.padre = nuevaRaiz
-    #     rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio - 1 - max(nuevaRaiz.factorEquilibrio, 0)
-    #     nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio - 1 + min(rotRaiz.factorEquilibrio, 0)
-        
     def rotarIzquierda(self, nodo):
         nuevaraiz = nodo.hijoDerecho 
         nodo.hijoDerecho = nuevaraiz.hijoIzquierdo
@@ -147,9 +111,8 @@ class ABB:
         nodo.hijoIzquierdo = nuevaraiz.hijoDerecho 
         nuevaraiz.hijoDerecho = nodo
         
-        nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho)) #se actualiza la altura del nodo actual, siendo 1 + la máxima altura de sus hijos
-        nodo.equilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho) #se actualiza el factor de equilibrio del nodo actual, siendo la diferencia de alturas entre sus hijos izquierdo y derecho
-
+        nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
+        nodo.equilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho) 
         nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho)) #se actualiza la altura de la nueva raíz, siendo 1 + la máxima altura de sus hijos
         nuevaraiz.equilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho) #se actualiza el factor de equilibrio de la nueva raiz, siendo la diferencia de alturas entre sus hijos izquierdo y derecho
 
