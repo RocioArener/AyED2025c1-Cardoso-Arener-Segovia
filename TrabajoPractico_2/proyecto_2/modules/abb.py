@@ -8,11 +8,20 @@ class NodoArbol:
         self.altura = 1
         self.factorEquilibrio = 0
 
+    def __str__(self):
+        izq = str(self.hijoIzquierdo) if self.hijoIzquierdo else ""
+        der = str(self.hijoDerecho) if self.hijoDerecho else ""
+        return f"{izq}({self.clave}: {self.valor}){der}"
+
 class ABB:
     def __init__(self):
         self.raiz = None
         self.tamano = 0
 
+    def __str__ (self):
+        if self.raiz is None:
+            return "Árbol vacío"
+        return str(self.raiz)
 
     def agregar(self, clave, valor): 
         self.raiz = self._agregar(self.raiz, clave, valor) 
@@ -128,5 +137,9 @@ if  __name__ == "__main__":
     arbol.agregar(5, "valor raiz")  
     arbol.agregar(3, "valor 3")
     arbol.agregar(7, "valor 7")
-    print(arbol.obtener(5))  # Debería imprimir "valor raiz"
+    arbol.agregar(2, "valor 2")
+    arbol.agregar(4, "valor 4")
+    arbol.agregar(6, "valor 6")
+    arbol.agregar(8, "valor 8")
+    print(arbol)  # Debería imprimir "valor raiz"
 
