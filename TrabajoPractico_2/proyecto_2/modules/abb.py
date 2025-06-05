@@ -124,6 +124,70 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
             return 0
         return 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
 
+    def encontrarMin(self, nodo):
+        if nodo is None:
+            return None
+        while nodo.hijoIzquierdo is not None:
+            nodo= nodo.hijoIzquierdo
+        return nodo
+
+    def eliminar(self,clave):
+        if self.tamano > 1:
+            nodoAEliminar = self._obtener(clave,self.raiz)
+            if nodoAEliminar:
+                self.remover(nodoAEliminar)
+                
+                self.raiz=self._balancear(self.raiz)
+                self.tamano = self.tamano-1
+            else:
+                raise KeyError('Error, la clave no está en el árbol')
+        elif self.tamano == 1 and self.raiz.clave == clave:
+            self.raiz = None
+            self.tamano = self.tamano - 1
+        else:
+            raise KeyError('Error, la clave no está en el árbol')
+
+    def __delitem__(self,clave):
+        self.eliminar(clave)
+
+    def remover(self,nodoActual):
+        if nodoActual.esHoja(): #hoja
+            if nodoActual == nodoActual.padre.hijoIzquierdo:
+               nodoActual.padre.hijoIzquierdo = None
+            else:
+               nodoActual.padre.hijoDerecho = None
+        elif nodoActual.tieneAmbosHijos(): #interior
+           suc = nodoActual.encontrarSucesor()
+           suc.empalmar()
+           nodoActual.clave = suc.clave
+           nodoActual.cargaUtil = suc.cargaUtil
+
+        else: # este nodo tiene un (1) hijo
+            if nodoActual.tieneHijoIzquierdo():
+                if nodoActual.esHijoIzquierdo():
+                    nodoActual.hijoIzquierdo.padre = nodoActual.padre
+                    nodoActual.padre.hijoIzquierdo = nodoActual.hijoIzquierdo
+                elif nodoActual.esHijoDerecho():
+                    nodoActual.hijoIzquierdo.padre = nodoActual.padre
+                    nodoActual.padre.hijoDerecho = nodoActual.hijoIzquierdo
+                else:
+                    nodoActual.reemplazarDatoDeNodo(nodoActual.hijoIzquierdo.clave,
+                                    nodoActual.hijoIzquierdo.cargaUtil,
+                                    nodoActual.hijoIzquierdo.hijoIzquierdo,
+                                    nodoActual.hijoIzquierdo.hijoDerecho)
+            else:
+                if nodoActual.esHijoIzquierdo():
+                    nodoActual.hijoDerecho.padre = nodoActual.padre
+                    nodoActual.padre.hijoIzquierdo = nodoActual.hijoDerecho
+                elif nodoActual.esHijoDerecho():
+                    nodoActual.hijoDerecho.padre = nodoActual.padre
+                    nodoActual.padre.hijoDerecho = nodoActual.hijoDerecho
+                else:
+                    nodoActual.reemplazarDatoDeNodo(nodoActual.hijoDerecho.clave,
+                                    nodoActual.hijoDerecho.cargaUtil,
+                                    nodoActual.hijoDerecho.hijoIzquierdo,
+                                    nodoActual.hijoDerecho.hijoDerecho)
+        self._balancear(nodoActual.padre)
 if  __name__ == "__main__":
     # Ejemplo de uso del NodoArbol
     arbol= ABB()
