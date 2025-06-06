@@ -1,25 +1,21 @@
-# 🐍Nombre del proyecto (darle un nombre significativo) 
+# Proyecto 2: Temperaturas_DB 
 
-Breve descripción del proyecto:
+La estructura interna utilizada en este proyecto es un árbol AVL, este permite almacenar la información de la base de datos proporcionada de forma ordenada y de fácil acceso para la aplicación principal. Para corroborar el correcto funcionamiento de las estructuras se implementan tests correspondientes a cada una.
+El objetivo principal del código es almacenar la información que el usuario proporcione, que permita su fácil acceso y modificación; el resultado es una aplicación principal que permite al usuario utilizar funciones relacionadas a la modificación u obtención de información de la base de datos, en este caso la base de datos está compuesta por temperaturas y la forma de acceso a estas es su fecha de registro.
 
-Ejemplo: “Este es un script en el que se comparan algoritmos de ordenamiento. Permite [describir funcionalidades principales].
-
----
 ## 🏗Arquitectura General
 
-Explica brevemente cómo está organizado el código (funciones y/o clases)
+Explica brevemente cómo está organizado el código:
+El codigo costa de un modulo principal llamado abb, que contiene las clases abb(que es un arbol de busqueda balanceado) y nodo arbol. Una aplicacion principal que contiene la clase temperaturas_DB donde las funciones que utiliza el usuario para acceder a la base de datos
 
-Las gráficas de los resultados están disponible en la carpeta [data](./data) del proyecto.
-
-El informe completo está disponible en la carpeta [docs](./docs) del proyecto.
+El informe completo está disponible en el repositorio.
 
 ---
 ## 📑Dependencias
 
-1. **Python 3.x**
-2. **matplotlib** (`pip install matplotlib`)
-3. listar dependencias principales
-4. Dependencias listadas en requierements.txt
+1. **Datatime**
+2. **Numpy**
+3. **Unitest**
 
 ---
 ## 🚀Cómo Ejecutar el Proyecto

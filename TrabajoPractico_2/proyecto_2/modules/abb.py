@@ -47,32 +47,6 @@ class NodoArbol: # Clase que representa un nodo en el árbol binario de búsqued
         if self.tieneHijoDerecho():
             self.hijoDerecho.padre = self
 
-    # def encontrarSucesor(self):
-    #     actual = self.hijoDerecho
-    #     while actual and actual.hijoIzquierdo is not None:
-    #         actual = actual.hijoIzquierdo
-    #     return actual
-        # def empalmar(self): # Conecta al abuelo con el nieto 
-    #    if self.esHoja(): 
-    #        if self.esHijoIzquierdo():
-    #               self.padre.hijoIzquierdo = None #se fija si el nodo actual es hijo izquierdo del padre
-    #        else:
-    #               self.padre.hijoDerecho = None #se fija si el nodo actual es hijo derecho del padre
-    #         #elimiina la conexion del padre al hijo      
-    #    elif self.tieneAlgunHijo():
-    #        if self.tieneHijoIzquierdo():
-    #               if self.esHijoIzquierdo():
-    #                  self.padre.hijoIzquierdo = self.hijoIzquierdo
-    #               else:
-    #                  self.padre.hijoDerecho = self.hijoIzquierdo
-    #               self.hijoIzquierdo.padre = self.padre
-    #        else:
-    #               if self.esHijoIzquierdo():
-    #                  self.padre.hijoIzquierdo = self.hijoDerecho
-    #               else:
-    #                  self.padre.hijoDerecho = self.hijoDerecho
-    #               self.hijoDerecho.padre = self.padre
-
 class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL)
     def __init__(self):
         self.raiz = None
@@ -213,44 +187,6 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         else:
             return self._obtenerNodo(clave, nodo.hijoDerecho)
         
-    # def remover(self,nodoActual):
-    #      if nodoActual.esHoja(): #no tiene hijos
-    #        if nodoActual == nodoActual.padre.hijoIzquierdo:
-    #            nodoActual.padre.hijoIzquierdo = None
-    #        else:
-    #            nodoActual.padre.hijoDerecho = None
-
-    #      elif nodoActual.tieneAmbosHijos(): #si tiene ambos hijos
-    #        suc = nodoActual.encontrarSucesor()
-    #        suc.empalmar()
-    #        nodoActual.clave = suc.clave
-    #        nodoActual.cargaUtil = suc.cargaUtil
-
-    #      else: # este nodo tiene un (1) hijo
-    #        if nodoActual.tieneHijoIzquierdo():
-    #          if nodoActual.esHijoIzquierdo():
-    #              nodoActual.hijoIzquierdo.padre = nodoActual.padre
-    #              nodoActual.padre.hijoIzquierdo = nodoActual.hijoIzquierdo
-    #          elif nodoActual.esHijoDerecho():
-    #              nodoActual.hijoIzquierdo.padre = nodoActual.padre
-    #              nodoActual.padre.hijoDerecho = nodoActual.hijoIzquierdo
-    #          else:
-    #              nodoActual.reemplazarDatoDeNodo(nodoActual.hijoIzquierdo.clave,
-    #                                 nodoActual.hijoIzquierdo.cargaUtil,
-    #                                 nodoActual.hijoIzquierdo.hijoIzquierdo,
-    #                                 nodoActual.hijoIzquierdo.hijoDerecho)
-    #        else:
-    #          if nodoActual.esHijoIzquierdo():
-    #              nodoActual.hijoDerecho.padre = nodoActual.padre
-    #              nodoActual.padre.hijoIzquierdo = nodoActual.hijoDerecho
-    #          elif nodoActual.esHijoDerecho():
-    #              nodoActual.hijoDerecho.padre = nodoActual.padre
-    #              nodoActual.padre.hijoDerecho = nodoActual.hijoDerecho
-    #          else:
-    #              nodoActual.reemplazarDatoDeNodo(nodoActual.hijoDerecho.clave,
-    #                                 nodoActual.hijoDerecho.cargaUtil,
-    #                                 nodoActual.hijoDerecho.hijoIzquierdo,
-    #                                 nodoActual.hijoDerecho.hijoDerecho)
     def _remover(self, nodo, clave):
         if not nodo:
             return nodo
@@ -312,6 +248,7 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
             return True
         else:
             return False
+
 
 
 if  __name__ == "__main__":
