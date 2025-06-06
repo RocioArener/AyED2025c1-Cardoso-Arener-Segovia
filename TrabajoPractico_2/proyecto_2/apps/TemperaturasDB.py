@@ -4,6 +4,7 @@ import datetime
 class BaseTemperaturas:
     def __init__(self, ):
         self.avl = ABB()    
+        self.tamano=0
 
     def guardar_temperatura(self, temperatura, fecha): #guarda la medida de temperatura asociada a la fecha.
         if not isinstance(fecha, datetime.date):
@@ -72,10 +73,10 @@ class BaseTemperaturas:
     
     def borrar_temperatura(self,fecha): #recibe una fecha y elimina del árbol la medición correspondiente a esa fecha.
         if not isinstance(fecha, datetime.date):
-            raise ValueError("La fehca debe ser instancia de datetime.date")
+            raise ValueError("La fecha debe ser instancia de datetime.date")
         if self.avl.obtener(fecha) is not None: #bajamos el tamaño si la fecha se encuentra dentro.
             self.tamano -=1
-        self.avl.eliminar(fecha)
+            self.avl.eliminar(fecha)
 
     def devolver_temperaturas(self, fecha1, fecha2):# devuelve un listado de las mediciones de temperatura en el rango recibido por parámetro con el formato “dd/mm/aaaa: temperatura ºC”, ordenado por fechas. 
         if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
@@ -84,12 +85,12 @@ class BaseTemperaturas:
             raise ValueError("fecha1 debe ser <= fecha2")
         lista=[]
         def recorrido_inorder(nodo):
-            if nodo in None:
+            if nodo is None:
                 return
             if nodo.clave >=fecha1:
                 recorrido_inorder(nodo.hijoIzquierdo)
             if fecha1 <=nodo.clave <=fecha2:
-                lista.append(f"{nodo.clave.strftime('%d/%m/%Y'): {nodo.valor}}°C")
+                lista.append(f"{nodo.clave.strftime('%d/%m/%Y')}: {nodo.valor}°C")
             if nodo.clave <=fecha2:
                 recorrido_inorder(nodo.hijoDerecho)
         recorrido_inorder(self.avl.raiz)
@@ -100,10 +101,6 @@ class BaseTemperaturas:
 
     def __str__(self):
         return "\n".join(self.devolver_temperaturas(datetime.date.min, datetime.date.max))
-
-
-
-
 
 
         # def longitud(self):
