@@ -103,11 +103,3 @@ class BaseTemperaturas:
 
     def __str__(self):
         return "\n".join(self.devolver_temperaturas(datetime.date.min, datetime.date.max))
-
-
-        # def longitud(self):
-    #     return self.tamano
-
-    # def __len__(self):
-    #     return self.tamano
-    
