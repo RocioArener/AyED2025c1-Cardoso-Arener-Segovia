@@ -37,7 +37,7 @@ class BaseTemperaturas:
             else:
                 max_izq = buscar_max(nodo.hijoIzquierdo)
                 max_der = buscar_max(nodo.hijoDerecho)
-                max_centro = nodo.valor
+                max_centro = nodo.cargaUtil
 
             candidatos = [x for x in [max_izq, max_der, max_centro] if x is not None]
             return max(candidatos) if candidatos else None
@@ -62,7 +62,7 @@ class BaseTemperaturas:
             else:
                 min_izq = buscar_min(nodo.hijoIzquierdo)
                 min_der = buscar_min(nodo.hijoDerecho)
-                min_centro = nodo.valor
+                min_centro = nodo.cargaUtil
 
             candidatos = [x for x in [min_izq, min_der, min_centro] if x is not None]
             return min(candidatos) if candidatos else None
@@ -74,9 +74,11 @@ class BaseTemperaturas:
     def borrar_temperatura(self,fecha): #recibe una fecha y elimina del árbol la medición correspondiente a esa fecha.
         if not isinstance(fecha, datetime.date):
             raise ValueError("La fecha debe ser instancia de datetime.date")
-        if self.avl.obtener(fecha) is not None: #bajamos el tamaño si la fecha se encuentra dentro.
-            self.tamano -=1
-            self.avl.eliminar(fecha)
+        self.avl.eliminar(fecha)  # Si no existe, debe lanzar excepción
+        # if self.avl.obtener(fecha) is not None: #bajamos el tamaño si la fecha se encuentra dentro.
+        #     self.avl.eliminar(fecha)
+        #     self.tamano -= 1
+
 
     def devolver_temperaturas(self, fecha1, fecha2):# devuelve un listado de las mediciones de temperatura en el rango recibido por parámetro con el formato “dd/mm/aaaa: temperatura ºC”, ordenado por fechas. 
         if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
@@ -90,14 +92,14 @@ class BaseTemperaturas:
             if nodo.clave >=fecha1:
                 recorrido_inorder(nodo.hijoIzquierdo)
             if fecha1 <=nodo.clave <=fecha2:
-                lista.append(f"{nodo.clave.strftime('%d/%m/%Y')}: {nodo.valor}°C")
+                lista.append(f"{nodo.clave.strftime('%d/%m/%Y')}: {nodo.cargaUtil}°C")
             if nodo.clave <=fecha2:
                 recorrido_inorder(nodo.hijoDerecho)
         recorrido_inorder(self.avl.raiz)
         return lista
 
     def cantidad_muestras(self):# devuelve la cantidad de muestras de la BD.
-        return self.tamano
+        return self.avl.tamano
 
     def __str__(self):
         return "\n".join(self.devolver_temperaturas(datetime.date.min, datetime.date.max))
