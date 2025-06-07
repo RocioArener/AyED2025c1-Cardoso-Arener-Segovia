@@ -1,25 +1,19 @@
-# 🐍Nombre del proyecto (darle un nombre significativo) 
+# Proyecto 1: Sala de emergencias 
 
-Breve descripción del proyecto:
-
-Ejemplo: “Este es un script en el que se comparan algoritmos de ordenamiento. Permite [describir funcionalidades principales].
+La estructura seleccionada para realizar la cola de prioridad fue un montículo binario, ya que nos permite realizar las funciones requeridas para el problema planteado en el proyecto 1.
+El código tiene como objetivo simular una sala de emergencia, y mostrar como resultado la sala de espera ordenada en como una cola de espera con orden de prioridad basado en la gravedad del paciente como primer criterio y en su hora de llegada como segundo criterio.
 
 ---
 ## 🏗Arquitectura General
 
-Explica brevemente cómo está organizado el código (funciones y/o clases)
-
-Las gráficas de los resultados están disponible en la carpeta [data](./data) del proyecto.
-
-El informe completo está disponible en la carpeta [docs](./docs) del proyecto.
+El codigo consta de dos modulos principales, cola_de_prioridad (que se basa en un monticulo binario) y paciente, ademas de main donde ejecutamos el codigo y que utiliza ambos modulos mencionados para funcionar.
 
 ---
 ## 📑Dependencias
 
-1. **Python 3.x**
-2. **matplotlib** (`pip install matplotlib`)
-3. listar dependencias principales
-4. Dependencias listadas en requierements.txt
+1. **datatime**
+2. **time**
+3. **random**
 
 ---
 ## 🚀Cómo Ejecutar el Proyecto
