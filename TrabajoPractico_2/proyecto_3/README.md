@@ -1,25 +1,18 @@
-# 🐍Nombre del proyecto (darle un nombre significativo) 
+# Proyecto 3: Palomas mensajeras
 
-Breve descripción del proyecto:
+Este código utiliza como estructura principal un grafo y como estructura auxiliar un montículo binario. La primera estructura permite almacenar la información de manera eficiente, representando los pueblos como nodos (vértices) y las distancias entre ellos como aristas ponderadas; por otro lado, la segunda estructura actúa como cola de prioridad y proporciona una forma de almacenar temporalmente los pueblos que todavía no han sido visitados; guía la selección del siguiente nodo a visitar, asegurando que siempre se elija opción más cercana según el  algoritmo implementado, en este caso, prim.
+El código  tiene  como objetivo encontrar la forma más eficiente de recorrer dicho grafo, pasando por cada nodo sólo una vez; mostrando como resultado el recorrido por cada pueblo y la suma total de las ponderaciones, es decir la distancia que recorrerán las palomas para hacer llegar el mensaje a cada pueblo.
 
-Ejemplo: “Este es un script en el que se comparan algoritmos de ordenamiento. Permite [describir funcionalidades principales].
 
 ---
 ## 🏗Arquitectura General
 
-Explica brevemente cómo está organizado el código (funciones y/o clases)
-
-Las gráficas de los resultados están disponible en la carpeta [data](./data) del proyecto.
-
-El informe completo está disponible en la carpeta [docs](./docs) del proyecto.
+El codigo consta de un modulo principal, PalomasWilliam que utiliza cola_de_prioridad para su correcto funcionamiento.
 
 ---
 ## 📑Dependencias
 
-1. **Python 3.x**
-2. **matplotlib** (`pip install matplotlib`)
-3. listar dependencias principales
-4. Dependencias listadas en requierements.txt
+1. **Sys**
 
 ---
 ## 🚀Cómo Ejecutar el Proyecto
