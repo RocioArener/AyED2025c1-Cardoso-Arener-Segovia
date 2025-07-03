@@ -47,6 +47,7 @@ class NodoArbol: # Clase que representa un nodo en el árbol binario de búsqued
         if self.tieneHijoDerecho():
             self.hijoDerecho.padre = self
 
+
 class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL)
     def __init__(self):
         self.raiz = None
@@ -64,9 +65,11 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         return str(self.raiz)
 
     def agregar(self, clave, valor): #Método para agregar un nuevo nodo al árbol.
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         self.raiz = self._agregar(self.raiz, clave, valor) 
 
     def _agregar(self, nodo, clave, valor): #Método recursivo para agregar un nuevo nodo al árbol.
+        '''Orden de complejidad: O(log n)'''
         if nodo is None: #crea un nuevo nodo si no hay ninguno, es decir cuando llega al lugar correcto
             nodo = NodoArbol(clave, valor)
             self.tamano += 1
@@ -81,15 +84,15 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
             nodo.hijoDerecho.padre = nodo #redirecciona el pointer 
         return self.balancear(nodo)
     
-
     def obtener(self,clave): #Metodo para obtener el valor asociado a una clave en el árbol
+        '''Orden de complejidad: O(log n)'''
         nodo = self._obtenerNodo(clave, self.raiz) #busca el nodo
         if nodo is None:
             raise Exception(f"Clave {clave} no encontrada en el árbol")
         return nodo.cargaUtil #devuelve la carga util del nodo encontrado
     
-
     def _obtener(self,clave,nodo): # Método recursivo para obtener el valor asociado (carga util) a una clave en el árbol
+       '''Orden de complejidad: O(log n)'''
        if not nodo:
            return None
        elif nodo.clave == clave:
@@ -99,8 +102,8 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
        else: # lo mismo que arriba, pero con el hijo derecho
            return self._obtener(clave,nodo.hijoDerecho)
 
-
     def balancear(self, nodo): # Método para balancear el árbol después de agregar un nuevo nodo
+        '''Orden de complejidad: O(log n)'''
         if nodo is None:
             return nodo
         nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho)) #se actualiza la altura del nodo
@@ -122,8 +125,8 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         #si no, se rota a la izquierda
         return nodo #si esta balanceado, se retorna el nodo sin cambios
 
-    
     def rotarIzquierda(self, nodo):
+        '''Orden de complejidad: O(n)'''
         nuevaraiz = nodo.hijoDerecho # asigna como nueva raiz al hijo derecho del nodo
         nodo.hijoDerecho = nuevaraiz.hijoIzquierdo # asigna el hijo izquierdo del nuevo nodo como hijo derecho del nodo actual
         nuevaraiz.hijoIzquierdo = nodo # asigna el nodo actual como hijo izquierdo del nuevo nodo
@@ -133,10 +136,10 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         # Actualiza la altura y factor de equilibrio de la nueva raíz
         nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho))
         nuevaraiz.factorEquilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho)
-        
         return nuevaraiz 
        
     def rotarDerecha(self, nodo):
+        '''Orden de complejidad: O(n)'''
         nuevaraiz = nodo.hijoIzquierdo # asigna como nueva raiz al hijo izquierdo del nodo
         nodo.hijoIzquierdo = nuevaraiz.hijoDerecho # asigna el hijo derecho del nuevo nodo como hijo izquierdo del nodo actual
         nuevaraiz.hijoDerecho = nodo # asigna el nodo actual como hijo derecho del nuevo nodo
@@ -147,15 +150,15 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho))
         nuevaraiz.factorEquilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho)
         return nuevaraiz 
-    
 
     def altura(self, nodo=None): # Método para calcular la altura del árbol
+        '''Orden de complejidad: O(n)'''
         if nodo is None:
             return 0
         return 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
 
-
     def eliminar(self, clave): # Método para eliminar un nodo del árbol
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         if self.tamano > 1: # si el árbol tiene más de un nodo, se procede a eliminar
             nodoAEliminar = self._obtenerNodo(clave, self.raiz) # busca el nodo a eliminar con la calve ingresada
             if nodoAEliminar: # si el nodo a eliminar existe, se procede a eliminarlo
@@ -170,17 +173,20 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
             raise KeyError('Error, la clave no está en el árbol')
     
     def encontrarMin(self): # Método para encontrar el nodo con la clave mínima en el árbol
+      '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
       actual = self
       while actual.tieneHijoIzquierdo():
           actual = actual.hijoIzquierdo
       return actual
     
     def _encontrarMin(self, nodo): # Método recursivo para encontrar el nodo con la clave mínima en un subárbol
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         while nodo.hijoIzquierdo:
             nodo = nodo.hijoIzquierdo
         return nodo
 
     def _obtenerNodo(self, clave, nodo): # Método recursivo para obtener el nodo con la clave especificada
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         if not nodo:
             return None
         elif nodo.clave == clave:
@@ -191,6 +197,7 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
             return self._obtenerNodo(clave, nodo.hijoDerecho) 
         
     def _remover(self, nodo, clave): # Método recursivo para eliminar un nodo con la clave especificada
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         if not nodo:
             return nodo
         
@@ -234,6 +241,7 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         return self.balancear(nodo)
     
     def _inorden(self, nodo): # usamos yield porque necesitamos recorrer toda la lista, es mas eficiente y devuelve uno por uno los elementos
+        '''Orden de complejidad: O(n)'''
         if nodo is not None:
             yield from self._inorden(nodo.hijoIzquierdo)
             yield (nodo.clave, nodo.cargaUtil)
@@ -241,18 +249,23 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
 
     # funciones creadas para el test que verifica el correcto funcionamiento del árbol(sobrecarga de metodos)
     def __iter__(self):
+        '''Orden de complejidad: O(n)'''
         yield from self._inorden(self.raiz)
 
     def __setitem__(self, clave, valor):
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         self.agregar(clave, valor)
 
     def __getitem__(self, clave):
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         return self.obtener(clave)
 
     def __delitem__(self, clave):
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         self.eliminar(clave)
 
     def __contains__(self,clave):
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         if self._obtener(clave,self.raiz):
             return True
         else:
@@ -272,6 +285,6 @@ if  __name__ == "__main__":
     arbol.agregar(8, "valor 8")
     arbol.agregar(100, "valor 100")
     arbol.agregar(1, "valor 1")
-    arbol.agregar(10, "valor")
+    arbol.agregar(10, "MESII")
     print(arbol)  # Debería imprimir "valor raiz"
 
