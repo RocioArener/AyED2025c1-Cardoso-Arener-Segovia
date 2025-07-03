@@ -3,11 +3,11 @@ from modules.abb import NodoArbol
 
 # tests/test_unitest.py
 # Test para el método factorEquilibrio de la clase NodoArbol
+# Calcula mal el equilibrio, ya que calcula la diferencia entre los factores de equilibrio de los hijos, en lugar de la altura de los subárboles.
 
 class TestNodoArbolFactorEquilibrio(unittest.TestCase):
     def setUp(self):
         '''Orden de complejidad: O(1)'''
-        # Patch the method for testing
         def factorEquilibrio(self): # Método para calcular el factor de equilibrio de un nodo'''
             if self.hijoIzquierdo and self.hijoDerecho:
                 return self.hijoIzquierdo.factorEquilibrio() - self.hijoDerecho.factorEquilibrio()
