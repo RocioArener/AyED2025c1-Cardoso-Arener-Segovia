@@ -8,10 +8,9 @@ class MonticuloBinario:
     def __init__(self):
         self.listaMonticulo=[0]
         self.tamanoActual=0
-    
-
 
     def infiltArriba(self,i):
+        '''Orden de complejidad O(log n)'''
         while i // 2 > 0:
             if self.listaMonticulo[i] < self.listaMonticulo[i // 2] :
                 tmp = self.listaMonticulo[i // 2]
@@ -20,6 +19,7 @@ class MonticuloBinario:
             i = i // 2
 
     def infiltAbajo(self,i):
+        '''Orden de complejidad O(log n)'''
         while i*2 <= self.tamanoActual:
             hm = self.hijoMin(i)
             if self.listaMonticulo[i] > self.listaMonticulo[hm]:
@@ -29,6 +29,7 @@ class MonticuloBinario:
             i = hm
 
     def hijoMin(self,i):
+        '''Orden de complejidad O(1)'''
         if i * 2 + 1 > self.tamanoActual:
             return i * 2
         else:
@@ -38,22 +39,22 @@ class MonticuloBinario:
                 return i * 2 + 1
     
     def insertar(self,k):
+        '''Orden de complejidad O(log n)'''
         self.listaMonticulo.append(k)
         self.tamanoActual = self.tamanoActual + 1
         self.infiltArriba(self.tamanoActual)
 
     def eliminarMin(self):
+        '''Orden de complejidad O(log n)'''
         valorSacado = self.listaMonticulo[1]
         self.listaMonticulo[1] = self.listaMonticulo[self.tamanoActual]
         self.tamanoActual = self.tamanoActual - 1
         self.listaMonticulo.pop()
         self.infiltAbajo(1)
         return valorSacado
-    
-    # def len(self,lista):
-    #     self.tamanoActual=len(lista)
 
     def mostrar(self):
+        '''Orden de complejidad O(n)'''
         print (self.listaMonticulo[1:])
     
     def __str__(self):

@@ -6,8 +6,9 @@ from modules.abb import NodoArbol
 
 class TestNodoArbolFactorEquilibrio(unittest.TestCase):
     def setUp(self):
+        '''Orden de complejidad: O(1)'''
         # Patch the method for testing
-        def factorEquilibrio(self): # Método para calcular el factor de equilibrio de un nodo
+        def factorEquilibrio(self): # Método para calcular el factor de equilibrio de un nodo'''
             if self.hijoIzquierdo and self.hijoDerecho:
                 return self.hijoIzquierdo.factorEquilibrio() - self.hijoDerecho.factorEquilibrio()
             elif self.hijoIzquierdo:
@@ -19,20 +20,24 @@ class TestNodoArbolFactorEquilibrio(unittest.TestCase):
         NodoArbol.factorEquilibrio = factorEquilibrio
 
     def test_sin_hijos(self):
+        '''Orden de complejidad: O(1)'''
         nodo = NodoArbol(1, "v")
         self.assertEqual(nodo.factorEquilibrio(), 0)
 
     def test_solo_hijo_izquierdo(self):
+        '''Orden de complejidad: O(1)'''
         nodo = NodoArbol(1, "v")
         nodo.hijoIzquierdo = NodoArbol(0, "izq")
         self.assertEqual(nodo.factorEquilibrio(), 1)
 
     def test_solo_hijo_derecho(self):
+        '''Orden de complejidad: O(1)'''
         nodo = NodoArbol(1, "v")
         nodo.hijoDerecho = NodoArbol(2, "der")
         self.assertEqual(nodo.factorEquilibrio(), -1)
 
     def test_ambos_hijos(self):
+        '''Orden de complejidad: O(1)'''
         nodo = NodoArbol(1, "v")
         izq = NodoArbol(0, "izq")
         der = NodoArbol(2, "der")
@@ -44,6 +49,7 @@ class TestNodoArbolFactorEquilibrio(unittest.TestCase):
         self.assertEqual(nodo.factorEquilibrio(), 2)
 
     def test_recursivo(self):
+        '''Orden de complejidad: O(n)'''
         nodo = NodoArbol(1, "v")
         izq = NodoArbol(0, "izq")
         der = NodoArbol(2, "der")

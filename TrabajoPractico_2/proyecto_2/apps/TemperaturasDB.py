@@ -10,6 +10,7 @@ class BaseTemperaturas:
 
     def guardar_temperatura(self, temperatura, fecha): #guarda la medida de temperatura asociada a la fecha.
         # Verifica que la fecha sea una instancia de datetime.date y que la temperatura sea un número.
+        '''Orden de complejidad: O(log n) en el caso promedio'''
         if not isinstance(fecha, datetime.date):
             raise ValueError("La fecha debe ser una instancia de datetime.date")
         if not isinstance(temperatura, (int, float)):
@@ -18,13 +19,14 @@ class BaseTemperaturas:
 
 
     def devolver_temperatura(self, fecha): #devuelve la medida de temperatura en la fecha determinada.
+        '''Orden de complejidad: O(log n)'''
         if not isinstance(fecha, datetime.date):
             raise ValueError("La fecha debe ser una instancia de datetime.date")
         return self.avl.obtener(fecha)
 
 
     def max_temp_rango(self, fecha1, fecha2): #devuelve la temperatura máxima entre los rangos fecha1 y fecha2 inclusive (fecha1 < fecha2).
-        
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         # Verifica que las fechas sean instancias de datetime.date y que fecha1 sea menor o igual a fecha2.
         if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
             raise ValueError("Las fechas deben ser instancias de datetime.date")
@@ -33,6 +35,7 @@ class BaseTemperaturas:
 
         # Función recursiva para buscar la temperatura máxima en el rango dado.
         def buscar_max(nodo):
+            '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
             if nodo is None:
                 return None
             max_izq = max_der = max_centro = None
@@ -56,7 +59,7 @@ class BaseTemperaturas:
 
 
     def min_temp_rango(self,fecha1, fecha2): #devuelve la temperatura mínima entre los rangos fecha1 y fecha2 inclusive (fecha1 < fecha2). Esto no implica que los intervalos del rango deban ser fechas incluidas previamente en el árbol.
-        
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         # Verifica que las fechas sean instancias de datetime.date y que fecha1 sea menor o igual a fecha2.
         if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
             raise ValueError("Las fechas deben ser instancias de datetime.date")        
@@ -65,6 +68,7 @@ class BaseTemperaturas:
         
         # Función recursiva para buscar la temperatura mínima en el rango dado.
         def buscar_min(nodo):
+            '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
             if nodo is None:
                 return None
             min_izq = min_der = min_centro = None
@@ -88,27 +92,28 @@ class BaseTemperaturas:
 
     def temp_extremos_rango(self,fecha1, fecha2): 
         #devuelve la temperatura mínima y máxima entre los rangos fecha1 y fecha2 inclusive (fecha1 < fecha2).
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         return self.min_temp_rango(fecha1, fecha2), self.max_temp_rango(fecha1, fecha2)
     
     
     def borrar_temperatura(self,fecha): #recibe una fecha y elimina del árbol la medición correspondiente a esa fecha.
+        '''Orden de complejidad: O(log n)'''
         if not isinstance(fecha, datetime.date):
             raise ValueError("La fecha debe ser instancia de datetime.date")
-        self.avl.eliminar(fecha)  # Si no existe, debe lanzar excepción
-        # if self.avl.obtener(fecha) is not None: #bajamos el tamaño si la fecha se encuentra dentro.
-        #     self.avl.eliminar(fecha)
-        #     self.tamano -= 1
+        self.avl.eliminar(fecha) 
 
 
     def devolver_temperaturas(self, fecha1, fecha2):
+        '''Orden de complejidad: O(n)'''
         # devuelve un listado de las mediciones de temperatura en el rango recibido por parámetro con el formato “dd/mm/aaaa: temperatura ºC”, ordenado por fechas. 
         # Verifica que las fechas sean instancias de datetime.date y que fecha1 sea menor o igual a fecha2.
         if not isinstance(fecha1, datetime.date) or not isinstance(fecha2, datetime.date):
             raise ValueError("Las fechas deben ser instancias de datetime.date")
         if fecha1>fecha2:
             raise ValueError("fecha1 debe ser <= fecha2")
+        
         lista=[]
-       
+
         # Función recursiva para recorrer el árbol en orden y agregar las temperaturas al listado.
         def recorrido_inorder(nodo):
             if nodo is None:
@@ -123,6 +128,7 @@ class BaseTemperaturas:
         return lista
 
     def cantidad_muestras(self):# devuelve la cantidad de muestras de la base.
+        '''Orden de complejidad: O(1)'''
         return self.avl.tamano # usa la funcion tamano del árbol AVL para obtener la cantidad de muestras.
 
     def __str__(self):

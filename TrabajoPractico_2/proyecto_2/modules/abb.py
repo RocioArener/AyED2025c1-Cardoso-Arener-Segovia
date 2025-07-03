@@ -285,6 +285,6 @@ if  __name__ == "__main__":
     arbol.agregar(8, "valor 8")
     arbol.agregar(100, "valor 100")
     arbol.agregar(1, "valor 1")
-    arbol.agregar(10, "MESII")
+    arbol.agregar(10, "valor")
     print(arbol)  # Debería imprimir "valor raiz"
 

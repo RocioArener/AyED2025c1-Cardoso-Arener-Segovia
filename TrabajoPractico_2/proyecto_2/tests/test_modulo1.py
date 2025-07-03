@@ -19,6 +19,7 @@ class Testabb(unittest.TestCase):
         pass
     
     def test_busqueda(self):
+        '''Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso'''
         claves = [45, 100, 20, 80, 55, 25, 18]
         self.agregar_claves(*claves)
         for clave in claves:
@@ -27,6 +28,7 @@ class Testabb(unittest.TestCase):
     def test_insercion(self):
         """
         Verifica la insercion binaria tradicional
+        Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso
         """
         self.agregar_claves(45, 100, 20, 80, 10, 110, 50)
         # verifico posicion relativa desde la raiz
@@ -68,9 +70,11 @@ class Testabb(unittest.TestCase):
                          "Nodo 80 debe ser un nodo interno, no un nodo hoja")
     
     def test_operador_contains(self): # verifica que que la clave este en el ABB
+        
         """
         Verifica la sobrecarga del operador 'in', que corrobora si
         un elemento está o no en el ABB
+        Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso
         """
         self.agregar_claves(45, 100, 20, 80, 10)
         self.assertTrue( 100 in self.abb )
@@ -81,6 +85,7 @@ class Testabb(unittest.TestCase):
         """
         Para evaluar el recorrido, los elementos del árbol deben 
         recorrerse in-orden al iterar sobre él en un ciclo for
+        Orden de complejidad: O(n)
         """
         # tratamos de evitar tener claves repetidas
         claves = list(set(np.random.randint(0,1000, (100,)))) # crea una lista de claves aleatorias
@@ -94,6 +99,7 @@ class Testabb(unittest.TestCase):
     def test_eliminacion(self):
         """
         Verifica los distintos casos de eliminacion en un arbol
+        Orden de complejidad: O(log n) en el caso promedio y O(n) en el peor caso
         """
         self.agregar_claves(100, 50, 20, 35, 75, 110, 105, 137, 150, 
                  145, 25, 170, 80, 120, 22, 125, 108, 79, 115, 130, 60)
@@ -145,6 +151,7 @@ class Testabb(unittest.TestCase):
                          "sucesor de su posicion original" )
     
     def test_tamano(self):
+        '''Orden de complejidad: O(1)'''
         # insercion 
         claves = [5, 7, 3, 4, 9, 1, 6, 8]
         self.assertEqual(self.abb.tamano, 0, "Al instanciar el ABB, su tamaño debe ser cero")
