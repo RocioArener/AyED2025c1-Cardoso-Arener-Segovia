@@ -11,7 +11,7 @@ class Testabb(unittest.TestCase):
     def setUp(self):
         self.abb = ABB()
     
-    def agregar_claves(self, *args):
+    def agregar_claves(self, *args): # descomprime las claves a agregar y se las agrega al ABB una por una
         for value in args:
             self.abb.agregar(clave=value, valor=2*value)
     
@@ -22,7 +22,7 @@ class Testabb(unittest.TestCase):
         claves = [45, 100, 20, 80, 55, 25, 18]
         self.agregar_claves(*claves)
         for clave in claves:
-            self.assertEqual( self.abb.obtener(clave), 2*clave )        
+            self.assertEqual( self.abb.obtener(clave), 2*clave ) # verifica que el vallor correspondiente a la clave sea el correcto     
     
     def test_insercion(self):
         """
@@ -67,7 +67,7 @@ class Testabb(unittest.TestCase):
         self.assertFalse(self.abb.raiz.hijoDerecho.hijoIzquierdo.esHoja(), 
                          "Nodo 80 debe ser un nodo interno, no un nodo hoja")
     
-    def test_operador_contains(self):
+    def test_operador_contains(self): # verifica que que la clave este en el ABB
         """
         Verifica la sobrecarga del operador 'in', que corrobora si
         un elemento está o no en el ABB
@@ -77,18 +77,18 @@ class Testabb(unittest.TestCase):
         self.assertTrue( 10 in self.abb )
         self.assertFalse( 1 in self.abb )
     
-    def test_recorrido(self):
+    def test_recorrido(self): 
         """
         Para evaluar el recorrido, los elementos del árbol deben 
         recorrerse in-orden al iterar sobre él en un ciclo for
         """
         # tratamos de evitar tener claves repetidas
-        claves = list(set(np.random.randint(0,1000, (100,))))
-        np.random.shuffle(claves)
-        self.agregar_claves(*claves)
+        claves = list(set(np.random.randint(0,1000, (100,)))) # crea una lista de claves aleatorias
+        np.random.shuffle(claves) # mezcla las claves aleatorias
+        self.agregar_claves(*claves) 
         # comparo recorrido del árbol con lista ordenada
-        claves = np.sort(claves)
-        for n, item in enumerate(self.abb):
+        claves = np.sort(claves) #ordena las claves
+        for n, item in enumerate(self.abb): #recorre la lista y el arbol en orden y comprara que sus valores sean iguales
             self.assertEqual(claves[n], item[0])
     
     def test_eliminacion(self):
@@ -103,6 +103,7 @@ class Testabb(unittest.TestCase):
                          msg="Elemento sigue figurando en el arbol")
         #print(self.abb)
         
+        #verifica que el nodo hoja izquierdo se elimino correctamente verificando que es none
         self.assertIs( self.abb.raiz.hijoDerecho.hijoDerecho.hijoIzquierdo.hijoIzquierdo, None, 
                          msg="Procedimiento erroneo de eliminacion de nodo hoja" )
         # elimino nodo hoja derecho
