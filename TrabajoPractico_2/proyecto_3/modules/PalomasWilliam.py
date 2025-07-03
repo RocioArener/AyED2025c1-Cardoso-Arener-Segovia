@@ -55,8 +55,6 @@ class Vertice:
         return self.distancia
     
 
-    
-
 class Grafo:
     """
     Implementación de un TAD Grafo utilizando una lista de adyacencias.
@@ -180,29 +178,33 @@ class Grafo:
                               optimizada de la cola de prioridad.
         
         Complejidad de esta Implementación: O(E * V). La ineficiencia se debe
-                                             a que las operaciones `in cp` y
-                                             `decrementarClave` dentro del bucle
-                                             son O(V) en lugar de O(log V). El bucle
-                                             se ejecuta E veces en el peor caso, llevando
-                                             a una complejidad total de O(E * V).
+                                            a que las operaciones `in cp` y
+                                            `decrementarClave` dentro del bucle
+                                            son O(V) en lugar de O(log V). El bucle
+                                            se ejecuta E veces en el peor caso, llevando
+                                            a una complejidad total de O(E * V).
         """
-        cp = MonticuloBinario()
-        for v in self:
+
+        cp = MonticuloBinario() # definimos cola de prioridad a partir de MonticuloBinario
+        for v in self: # recorremos los vertices del grafo 
             v.asignarDistancia(sys.maxsize)
             v.asignarPredecesor(None)
         inicio.asignarDistancia(0)
         for v in self:
-            cp.insertar((v.obtenerDistancia(), v))
-            
-        while not cp.estaVacia():
-            verticeActual = cp.eliminarMin()[1]
-            for verticeSiguiente in verticeActual.obtenerConexiones():
-                nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente)
-                if verticeSiguiente in cp and nuevoCosto < verticeSiguiente.obtenerDistancia():
+            cp.insertar((v.obtenerDistancia(), v)) # insertamos todos los vertices en la cola de prioridad con su distancia como clave
+        while not cp.estaVacia(): 
+            verticeActual = cp.eliminarMin()[1] # obtenemos el vertice con la menor distancia (el primer elemento de cp)
+            for verticeSiguiente in verticeActual.obtenerConexiones(): # iteramos sobre cada vecino de nuestro verticeActual
+                nuevoCosto = verticeActual.obtenerPonderacion(verticeSiguiente) 
+                # asigna como nuevo costo la distancia que hay entre el vertice actual y el vertice sigueinte
+                if verticeSiguiente in cp and nuevoCosto < verticeSiguiente.obtenerDistancia(): 
+                    # funcion de relajacion si el verticeSiguiente esta en la cola de prioridad y el nuevo costo es menor que la 
+                    # distancia actual del verticeSiguiente, actualizamos su distancia y predecesor
                     verticeSiguiente.asignarPredecesor(verticeActual)
                     verticeSiguiente.asignarDistancia(nuevoCosto)
                     cp.decrementarClave(verticeSiguiente,nuevoCosto)
             print(f"El mensaje se envia desde aldea {verticeSiguiente.obtenerId()} a aldea {verticeActual.obtenerId()} ")  
+            # debemos corregir el orden de los mensajes, ya que se deberia enviar dedesde el verticeActual al verticeSiguiente
 
         
 if __name__ == "__main__":
@@ -219,6 +221,7 @@ if __name__ == "__main__":
     distancia=0
     for v in g:
         distancia+=v.obtenerDistancia()
+
     print("------------------------")
     print(f'La suma de todas las distancias recorridas por todas las palomas enviadas desde cada palomar es {distancia} leguas')
     print("------------------------")

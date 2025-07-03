@@ -1,4 +1,4 @@
-class NodoArbol: # Clase que representa un nodo en el árbol binario de búsqueda balanceado
+class NodoArbol: # Clase que representa un nodo en el árbol binario de búsqueda balanceado (AVL)
     def __init__(self,clave,valor):
         self.clave = clave
         self.cargaUtil = valor
