@@ -52,10 +52,10 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
         self.raiz = None
         self.tamano = 0
     
-    def longitud(self):
+    def longitud(self): # Método que devuelve el tamaño del árbol
         return self.tamano
 
-    def __len__(self):
+    def __len__(self): # Método que devuelve el tamaño del árbol creado para el test
         return self.tamano
 
     def __str__ (self):
@@ -63,31 +63,33 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
             return "Árbol vacío"
         return str(self.raiz)
 
-    def agregar(self, clave, valor): # Método para agregar un nuevo nodo al árbol
+    def agregar(self, clave, valor): #Método para agregar un nuevo nodo al árbol.
         self.raiz = self._agregar(self.raiz, clave, valor) 
 
-    def _agregar(self, nodo, clave, valor): # Método recursivo para agregar un nuevo nodo al árbol
-        if nodo is None:
+    def _agregar(self, nodo, clave, valor): #Método recursivo para agregar un nuevo nodo al árbol.
+        if nodo is None: #crea un nuevo nodo si no hay ninguno, es decir cuando llega al lugar correcto
             nodo = NodoArbol(clave, valor)
             self.tamano += 1
             return nodo
-        elif clave < nodo.clave:
+        elif clave < nodo.clave: #si la clave es menor, pasa a _agregar los nuevos parametros, siendo la clave y 
+                                 #el hijo izquierdo del nodo actual
             nodo.hijoIzquierdo = self._agregar(nodo.hijoIzquierdo, clave, valor)
-            nodo.hijoIzquierdo.padre = nodo
-        else:
+            nodo.hijoIzquierdo.padre = nodo #redirecciona el pointer
+        else: #si la clave es mayor o igual, le pasa a _agregar los nuevos parametros, 
+              #siendo la clave y el hijo derecho del nodo actual
             nodo.hijoDerecho = self._agregar(nodo.hijoDerecho, clave, valor)
-            nodo.hijoDerecho.padre = nodo
+            nodo.hijoDerecho.padre = nodo #redirecciona el pointer 
         return self.balancear(nodo)
     
 
     def obtener(self,clave): #Metodo para obtener el valor asociado a una clave en el árbol
-        nodo = self._obtenerNodo(clave, self.raiz)
+        nodo = self._obtenerNodo(clave, self.raiz) #busca el nodo
         if nodo is None:
             raise Exception(f"Clave {clave} no encontrada en el árbol")
-        return nodo.cargaUtil
+        return nodo.cargaUtil #devuelve la carga util del nodo encontrado
     
 
-    def _obtener(self,clave,nodo): # Método recursivo para obtener el valor asociado a una clave en el árbol
+    def _obtener(self,clave,nodo): # Método recursivo para obtener el valor asociado (carga util) a una clave en el árbol
        if not nodo:
            return None
        elif nodo.clave == clave:
@@ -122,115 +124,122 @@ class ABB: # Clase que representa un árbol binario de búsqueda balanceado (AVL
 
     
     def rotarIzquierda(self, nodo):
-        nuevaraiz = nodo.hijoDerecho 
-        nodo.hijoDerecho = nuevaraiz.hijoIzquierdo
-        nuevaraiz.hijoIzquierdo = nodo
-       
+        nuevaraiz = nodo.hijoDerecho # asigna como nueva raiz al hijo derecho del nodo
+        nodo.hijoDerecho = nuevaraiz.hijoIzquierdo # asigna el hijo izquierdo del nuevo nodo como hijo derecho del nodo actual
+        nuevaraiz.hijoIzquierdo = nodo # asigna el nodo actual como hijo izquierdo del nuevo nodo
+        # Actualiza la altura y factor de equilibrio del nodo actual 
         nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
         nodo.factorEquilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho)
-
+        # Actualiza la altura y factor de equilibrio de la nueva raíz
         nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho))
         nuevaraiz.factorEquilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho)
         
         return nuevaraiz 
        
     def rotarDerecha(self, nodo):
-        nuevaraiz = nodo.hijoIzquierdo 
-        nodo.hijoIzquierdo = nuevaraiz.hijoDerecho 
-        nuevaraiz.hijoDerecho = nodo
-        
+        nuevaraiz = nodo.hijoIzquierdo # asigna como nueva raiz al hijo izquierdo del nodo
+        nodo.hijoIzquierdo = nuevaraiz.hijoDerecho # asigna el hijo derecho del nuevo nodo como hijo izquierdo del nodo actual
+        nuevaraiz.hijoDerecho = nodo # asigna el nodo actual como hijo derecho del nuevo nodo
+        # Actualiza la altura y factor de equilibrio del nodo actual
         nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho)) 
         nodo.factorEquilibrio = self.altura(nodo.hijoIzquierdo) - self.altura(nodo.hijoDerecho)
-        nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho)) #se actualiza la altura de la nueva raíz, siendo 1 + la máxima altura de sus hijos
-        nuevaraiz.factorEquilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho)#se actualiza el factor de equilibrio de la nueva raiz, siendo la diferencia de alturas entre sus hijos izquierdo y derecho
+        # Actualiza la altura y factor de equilibrio de la nueva raíz
+        nuevaraiz.altura = 1 + max(self.altura(nuevaraiz.hijoIzquierdo), self.altura(nuevaraiz.hijoDerecho))
+        nuevaraiz.factorEquilibrio = self.altura(nuevaraiz.hijoIzquierdo) - self.altura(nuevaraiz.hijoDerecho)
         return nuevaraiz 
     
 
-    def altura(self, nodo=None):
+    def altura(self, nodo=None): # Método para calcular la altura del árbol
         if nodo is None:
             return 0
         return 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
 
-        
+
     def eliminar(self, clave): # Método para eliminar un nodo del árbol
-        if self.tamano > 1:
-            nodoAEliminar = self._obtenerNodo(clave, self.raiz)
-            if nodoAEliminar:
+        if self.tamano > 1: # si el árbol tiene más de un nodo, se procede a eliminar
+            nodoAEliminar = self._obtenerNodo(clave, self.raiz) # busca el nodo a eliminar con la calve ingresada
+            if nodoAEliminar: # si el nodo a eliminar existe, se procede a eliminarlo
                 self.raiz = self._remover(self.raiz, clave)
                 self.tamano -= 1
-            else:
+            else: # si el nodo a eliminar no existe, se lanza una excepción
                 raise KeyError('Error, la clave no está en el árbol')
-        elif self.tamano==1 and self.raiz.clave==clave:
+        elif self.tamano==1 and self.raiz.clave==clave: # si el arbol tiene un solo nodo, lo elimina directamente (es la raiz)
             self.raiz = None
             self.tamano = 0
         else:
             raise KeyError('Error, la clave no está en el árbol')
     
-    def encontrarMin(self):
+    def encontrarMin(self): # Método para encontrar el nodo con la clave mínima en el árbol
       actual = self
       while actual.tieneHijoIzquierdo():
           actual = actual.hijoIzquierdo
       return actual
     
-    def _encontrarMin(self, nodo):
+    def _encontrarMin(self, nodo): # Método recursivo para encontrar el nodo con la clave mínima en un subárbol
         while nodo.hijoIzquierdo:
             nodo = nodo.hijoIzquierdo
         return nodo
 
-    def _obtenerNodo(self, clave, nodo):
+    def _obtenerNodo(self, clave, nodo): # Método recursivo para obtener el nodo con la clave especificada
         if not nodo:
             return None
         elif nodo.clave == clave:
             return nodo
-        elif clave < nodo.clave:
-            return self._obtenerNodo(clave, nodo.hijoIzquierdo)
-        else:
-            return self._obtenerNodo(clave, nodo.hijoDerecho)
+        elif clave < nodo.clave: # si la clave es menor, busca en el hijo izquierdo y le pasa a _obtenerNodo los nuevos parametros.
+            return self._obtenerNodo(clave, nodo.hijoIzquierdo) 
+        else: # si la clave es mayor, busca en el hijo derecho y le pasa a _obtenerNodo los nuevos parametros.
+            return self._obtenerNodo(clave, nodo.hijoDerecho) 
         
-    def _remover(self, nodo, clave):
+    def _remover(self, nodo, clave): # Método recursivo para eliminar un nodo con la clave especificada
         if not nodo:
             return nodo
         
+        # Si la clave es menor, se busca en el subárbol izquierdo el nodo a eliminar
         if clave < nodo.clave:
             nodo.hijoIzquierdo = self._remover(nodo.hijoIzquierdo, clave)
             if nodo.hijoIzquierdo:
                 nodo.hijoIzquierdo.padre = nodo
+        # Si la clave es mayor, se busca en el subárbol derecho el nodo a eliminar
         elif clave > nodo.clave:
             nodo.hijoDerecho = self._remover(nodo.hijoDerecho, clave)
             if nodo.hijoDerecho:
                 nodo.hijoDerecho.padre = nodo
-        else:
+
+        else: #cuando se encuentra el nodo a eliminar (nodo.clave == clave)
             # Caso 1: Nodo hoja
             if not nodo.hijoIzquierdo and not nodo.hijoDerecho:
                 return None
             # Caso 2: Nodo con un hijo
-            elif not nodo.hijoIzquierdo:
+            elif not nodo.hijoIzquierdo: # si tiene hijo derecho, lo conecta con el padre del nodo a eliminar(actual)
                 temp = nodo.hijoDerecho
                 temp.padre = nodo.padre
-                return temp
-            elif not nodo.hijoDerecho:
+                return temp # nodo que queda en el lugar del nodo eliminado
+            elif not nodo.hijoDerecho: # si tiene hijo izquierdo, lo conecta con el padre del nodo a eliminar(actual)
                 temp = nodo.hijoIzquierdo
                 temp.padre = nodo.padre
-                return temp
+                return temp # nodo que queda en el lugar del nodo eliminado
             # Caso 3: Nodo con dos hijos
-            else:
+            else: # reemplaza el valor del nodo y elimina al sucesor
                 sucesor = self._encontrarMin(nodo.hijoDerecho)
-                nodo.clave = sucesor.clave
+                # Encuentra el sucesor (el nodo con la clave mínima en el subárbol derecho)
+                # Reemplaza la clave y  la carga util del nodo a eliminar con la del sucesor
+                nodo.clave = sucesor.clave 
                 nodo.cargaUtil = sucesor.cargaUtil
-                nodo.hijoDerecho = self._remover(nodo.hijoDerecho, sucesor.clave)
-                if nodo.hijoDerecho:
+                nodo.hijoDerecho = self._remover(nodo.hijoDerecho, sucesor.clave) # elimina el sucesor del subárbol derecho
+                if nodo.hijoDerecho: #conecta al hijo derecho con el padre del nodo actual
                     nodo.hijoDerecho.padre = nodo
         
         # Actualizar altura y balancear
         nodo.altura = 1 + max(self.altura(nodo.hijoIzquierdo), self.altura(nodo.hijoDerecho))
         return self.balancear(nodo)
     
-    def _inorden(self, nodo):
+    def _inorden(self, nodo): # usamos yield porque necesitamos recorrer toda la lista, es mas eficiente y devuelve uno por uno los elementos
         if nodo is not None:
             yield from self._inorden(nodo.hijoIzquierdo)
             yield (nodo.clave, nodo.cargaUtil)
             yield from self._inorden(nodo.hijoDerecho)
 
+    # funciones creadas para el test que verifica el correcto funcionamiento del árbol(sobrecarga de metodos)
     def __iter__(self):
         yield from self._inorden(self.raiz)
 

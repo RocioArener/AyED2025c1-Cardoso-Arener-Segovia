@@ -2,10 +2,11 @@ import unittest
 import datetime
 from apps.TemperaturasDB import BaseTemperaturas
 
+# test que verifica el correcto funcionamiento de la clase BaseTemperaturas
+
 class TestBaseTemperaturas(unittest.TestCase):
     def setUp(self):
         self.db = BaseTemperaturas()
-        # Asegúrate de que BaseTemperaturas crea self.avl en __init__ y que guardar_temperatura funciona
         self.db.guardar_temperatura(20, datetime.date(2024, 6, 1))
         self.db.guardar_temperatura(25, datetime.date(2024, 6, 2))
         self.db.guardar_temperatura(15, datetime.date(2024, 6, 3))
