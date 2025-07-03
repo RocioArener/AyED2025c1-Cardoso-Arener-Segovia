@@ -2,11 +2,12 @@ import unittest
 from modules.abb import NodoArbol
 
 # tests/test_unitest.py
+# Test para el método factorEquilibrio de la clase NodoArbol
 
 class TestNodoArbolFactorEquilibrio(unittest.TestCase):
     def setUp(self):
         # Patch the method for testing
-        def factorEquilibrio(self):
+        def factorEquilibrio(self): # Método para calcular el factor de equilibrio de un nodo
             if self.hijoIzquierdo and self.hijoDerecho:
                 return self.hijoIzquierdo.factorEquilibrio() - self.hijoDerecho.factorEquilibrio()
             elif self.hijoIzquierdo:

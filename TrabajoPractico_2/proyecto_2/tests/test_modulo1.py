@@ -145,10 +145,10 @@ class Testabb(unittest.TestCase):
                          "sucesor de su posicion original" )
     
     def test_tamano(self):
-        # insercion
+        # insercion 
         claves = [5, 7, 3, 4, 9, 1, 6, 8]
         self.assertEqual(self.abb.tamano, 0, "Al instanciar el ABB, su tamaño debe ser cero")
-        for n, i in enumerate(claves):
+        for n, i in enumerate(claves): # asigna un indice a cada clave, n el indice, i la clave
             self.abb.agregar(clave=i, valor=2*i)
             self.assertEqual(self.abb.tamano, n+1, f"ABB deberia tener {n+1} elementos")
         self.assertEqual(len(self.abb), len(claves), "El operador len() debería estar correctamente sobrecargado")

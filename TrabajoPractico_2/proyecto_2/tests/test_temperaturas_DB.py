@@ -3,6 +3,8 @@ import datetime
 from apps.TemperaturasDB import BaseTemperaturas
 
 # test que verifica el correcto funcionamiento de la clase BaseTemperaturas
+# verifica que se guerden, devuelvan, eliminen y se obtengan las temperaturas correctamente
+# ademas verifica que se obtengan las temperaturas maximas y minimas de un rango de fechas tanto correctas como incorrectas
 
 class TestBaseTemperaturas(unittest.TestCase):
     def setUp(self):
